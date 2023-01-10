@@ -1,11 +1,12 @@
 #[macro_use] extern crate rocket;
 
-#[rocket::get("/world")]
-fn world() -> &'static str {
-    "Hello, world!"
+#[rocket::get("/house/<id>")]
+fn house(id: i64) -> & 'static str {
+    let output: String = id.to_string();
+    
 }
 
 #[rocket::launch]
 fn rocket() -> _ {
-    rocket::build().mount("/hello", routes![world])
+    rocket::build().mount("/", routes![house])
 }

@@ -1,0 +1,5 @@
+
+hause-be/target/*
+hause-be/target/debug/*
+hause-fe/node_modules/*
+hause-fe/.vscode/*
