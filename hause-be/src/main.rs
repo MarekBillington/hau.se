@@ -1,12 +1,15 @@
 #[macro_use] extern crate rocket;
 
-#[rocket::get("/house/<id>")]
-fn house(id: i64) -> & 'static str {
-    let output: String = id.to_string();
-    
-}
+mod house;
 
-#[rocket::launch]
+#[launch]
 fn rocket() -> _ {
-    rocket::build().mount("/", routes![house])
+    let routes:Vec<rocket::Route> = routes![
+        house::all_houses,
+        house::house_by_id
+    ];
+    
+    // @todo some kind of security fairing required on requests
+    rocket::build()
+        .mount("/", routes)
 }
