@@ -2,3 +2,6 @@
 /hause-be/target/
 /hause-fe/node_modules/
 /hause-fe/.vscode/
+*.exe
+*.pdb
+*.d
