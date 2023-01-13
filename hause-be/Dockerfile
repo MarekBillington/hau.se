@@ -1,10 +1,19 @@
 FROM rust:1.66 as builder
+
 WORKDIR /app
-COPY . .
+COPY . ./
 RUN cargo install --path .
 
 FROM debian:buster-slim as runner
-COPY --from=builder /usr/local/cargo/bin/hause /usr/local/cargo/bin/hause
+ARG APP=/user/src/app
+RUN mkdir -p {$APP}
+
+# Copy the compiled binaries into the new container.
+COPY --from=builder /usr/local/cargo/bin/hause-be ${APP}/hause-be
 ENV ROCKET_ADDRESS=0.0.0.0
+
+WORKDIR ${APP}
+
 EXPOSE 8000
-CMD ["hause"]
+
+CMD ["./hause-be"]

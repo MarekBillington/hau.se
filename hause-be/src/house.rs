@@ -27,7 +27,7 @@ pub fn all_houses() -> Json<Vec<House>> {
 
 #[rocket::get("/house/<id>")]
 pub fn house_by_id(id: i64) -> Json<House> {
-    let h3 = House {id: 3, address: String::from("123 test road")};
+    let h3 = House {id: id, address: String::from("123 test road")};
     Json(h3)
 }
 
