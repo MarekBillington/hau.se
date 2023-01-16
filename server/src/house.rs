@@ -4,7 +4,7 @@ use rocket::serde::{Serialize, Deserialize, json::Json};
 #[serde(crate = "rocket::serde")]
 pub struct House {
     id: i64,
-    address: String,  
+    address: String,
 }
 
 #[derive(Deserialize)]
@@ -16,7 +16,7 @@ pub struct NewHouse {
 #[rocket::get("/house")]
 pub fn all_houses() -> Json<Vec<House>> {
     let h = House {id: 1, address: String::from("abc")};
-    let h2 = House {id: 2, address: String::from("abc")};
+    let h2 = House {id: 3, address: String::from("def")};
 
     let mut vec = Vec::new();
     vec.push(h);

@@ -4,7 +4,7 @@ WORKDIR /app
 COPY . ./
 RUN cargo install --path .
 
-FROM debian:buster-slim as runner
+FROM ubuntu:22.04 as runner
 ARG APP=/user/src/app
 RUN mkdir -p {$APP}
 

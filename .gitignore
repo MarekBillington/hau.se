@@ -1,7 +1,7 @@
 
-/hause-be/target/
-/hause-fe/node_modules/
-/hause-fe/.vscode/
+/server/target/
+/client/node_modules/
+/client/.vscode/
 *.exe
 *.pdb
 *.d
