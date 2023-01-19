@@ -16,7 +16,7 @@ pub struct NewHouse {
 #[rocket::get("/house")]
 pub fn all_houses() -> Json<Vec<House>> {
     let h = House {id: 1, address: String::from("abc")};
-    let h2 = House {id: 3, address: String::from("def")};
+    let h2 = House {id: 3, address: String::from("Ball man")};
 
     let mut vec = Vec::new();
     vec.push(h);
