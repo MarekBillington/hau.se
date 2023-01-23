@@ -1,15 +1,31 @@
-import { component$ } from '@builder.io/qwik';
+import { component$, Resource, useResource$ } from '@builder.io/qwik';
 import { DocumentHead } from '@builder.io/quik-city';
+import House from './house';
 
-export default component$(() => {
+export const Houses = component$(() => {
+
+    const houseList = useResource$(async () => {
+        const res = await fetch('http://localhost:8000/house');
+        return res.json();
+    })
 
     return (
-        <>
-            <p>some walls</p>
-        </>
+        <div>
+            <Resource 
+                value={houseList}
+                onResolved={(houses: Array<House>) => {
+                    const hs = houses.map(h => {
+                        return <House {...h}/>
+                    });
+                    return (
+                        <>
+                            {hs}
+                        </>
+                    )
+                }}
+            />
+        </div>
     );
 });
 
-export const head: DocumentHead = {
-    title: 'Houses',
-  };
+export default Houses;

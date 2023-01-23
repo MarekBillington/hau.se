@@ -2,20 +2,24 @@
  
 ## Front end - Qwik (React)
 
-cd ./hau.se/hause-fe & npm run
+cd ./hau.se/client & npm run
 
 localhost:5173
 
 node_modules ~ 
 
 ## Back End - Rocket (Rust)
+SEE: https://itnext.io/creating-a-rust-web-app-with-rocket-and-diesel-58f5f6cacd27#856adi
 
-cd ./hau.se/hause-be & cargo run
+cd ./hau.se/server & cargo run
 
 localhost:8000
 
-docker run --rm -it -p 8000:8000/tcp --mount type=bind,source=/home/marek/www/hau.se/server/target/debug/hause-be,target=/user/src/app/hause-be hause:latest
+`cargo install diesel_cli@2.0.1 --no-default-features --features postgres`
+>> if error: linking with `cc` failed: exit status: 1 
+>> Do `sudo apt-get install libpq-dev`
+
 
 ## Postgres (RDS)
 
-postgres://postgres:postgrespw@localhost:49153
+postgres://postgres:postgres@localhost:5432

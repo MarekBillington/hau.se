@@ -3,8 +3,18 @@ name = "hause"
 version = "0.1.0"
 edition = "2021"
 
+[dependencies]
+diesel_cli = { version = "2.0.1", default-features = false, features = ["postgres"] }
+diesel = { version = "2.0.2", features = ["postgres"] }
+chrono = "0.4.23"
+
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies.rocket]
 version = "0.5.0-rc.2"
 features = ["json"]
+
+[dependencies.rocket_contrib]
+version = "0.4.11"
+default-features = false
+features = ["diesel_postgres_pool"]

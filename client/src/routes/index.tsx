@@ -1,14 +1,16 @@
 import { component$ } from '@builder.io/qwik';
 import type { DocumentHead } from '@builder.io/qwik-city';
 
-export default component$(() => {
+export const App = component$(() => {
+  
   return (
-    <div>
-      <h1>We might want to put information here....</h1>
-      <p>but who knows</p>
-    </div>
+    <>
+      Eventually we want upfront metrics here...
+    </>
   );
 });
+
+export default App;
 
 export const head: DocumentHead = {
   title: 'Hau.se',

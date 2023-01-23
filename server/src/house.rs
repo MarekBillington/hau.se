@@ -1,38 +1,49 @@
+
+use chrono::{DateTime, Utc};
+use diesel::{Queryable, Insertable, table};
+use rocket::database;
 use rocket::serde::{Serialize, Deserialize, json::Json};
 
-#[derive(Serialize)]
+#[database("db")]
+pub struct Db(diesel::PgConnection);
+
+#[derive(Serialize, Deserialize, Queryable, Debug, Insertable)]
 #[serde(crate = "rocket::serde")]
-pub struct House {
+struct House {
     id: i64,
+    // created: chrono::DateTime<Utc>,
+    // updated: chrono::DateTime<Utc>,
     address: String,
+    bedroom: i32,
+    bathroom: i32,
+    garage: i32,
+    landarea: f32,
+    floorarea: f32,
+    misc: String,
 }
 
 #[derive(Deserialize)]
 #[serde(crate = "rocket::serde")]
-pub struct NewHouse {
+struct NewHouse {
     address: String,
 }
 
 #[rocket::get("/house")]
-pub fn all_houses() -> Json<Vec<House>> {
-    let h = House {id: 1, address: String::from("abc")};
-    let h2 = House {id: 3, address: String::from("Ball man")};
+pub async fn all_houses(conn: Db) -> Json<Vec<House>> {
+    conn.run(|c| house::table.load(c))
+        .await
+        .map(Json)
+        .expect("Failed to fetch houses")
+}
 
-    let mut vec = Vec::new();
-    vec.push(h);
-    vec.push(h2);
+// #[rocket::get("/house/<id>")]
+// pub async fn house_by_id(id: i64) {
     
-    Json(vec)
-}
+//     Ok(())
+// }
 
-#[rocket::get("/house/<id>")]
-pub fn house_by_id(id: i64) -> Json<House> {
-    let h3 = House {id: id, address: String::from("123 test road")};
-    Json(h3)
-}
-
-#[rocket::post("/house", format = "application/json", data = "<house>")]
-pub fn create_house(house: Json<NewHouse>) -> Json<House> {
-    let h = House {id: 1, address: String::from(&house.address)};
-    Json(h)
-}
+// #[rocket::post("/house", format = "application/json", data = "<house>")]
+// pub async fn create_house(house: Json<NewHouse>) {
+    
+//     Ok(())
+// }
