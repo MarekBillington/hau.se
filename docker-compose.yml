@@ -9,7 +9,7 @@ services:
       - ./client:/var/hause/client:delegated
   server:
     build:
-      context: server
+      context: server-go
       dockerfile: Dockerfile
     ports:
       - '8000:8000'

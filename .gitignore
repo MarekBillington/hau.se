@@ -1,5 +1,5 @@
 
-/server/target/
+/rust/target/
 /client/node_modules/
 /client/.vscode/
 *.exe

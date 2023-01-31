@@ -4,14 +4,14 @@ import House from './house';
 
 export const Houses = component$(() => {
 
-    const houseList = useResource$(async () => {
-        const res = await fetch('http://localhost:8000/house');
-        return res.json();
-    })
+    // const houseList = useResource$(async () => {
+    //     const res = await fetch('http://localhost:8000/house');
+    //     return res.json();
+    // })
 
     return (
         <div>
-            <Resource 
+            {/* <Resource 
                 value={houseList}
                 onResolved={(houses: Array<House>) => {
                     const hs = houses.map(h => {
@@ -23,7 +23,8 @@ export const Houses = component$(() => {
                         </>
                     )
                 }}
-            />
+            /> */}
+            Hello
         </div>
     );
 });
