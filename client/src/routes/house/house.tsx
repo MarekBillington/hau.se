@@ -12,7 +12,9 @@ export const House = component$((house: House) => {
     )
     return (
         <div>
-            <h6>{store.house.address}</h6>
+            <a href={store.house.id.toString()}>
+                {store.house.address}
+            </a>
         </div>
     );
 })

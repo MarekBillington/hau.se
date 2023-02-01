@@ -7,8 +7,13 @@ import (
 )
 
 type House struct {
-	ID      int    `json:"id" gorm:"primaryKey"`
-	Address string `json:"address"`
+	ID         int    `json:"id" gorm:"primaryKey"`
+	Address    string `json:"address"`
+	Bedrooms   string `json:"bedrooms"`
+	Bathrooms  string `json:"bathrooms"`
+	Garage     string `json:"garage"`
+	Floorspace string `json:"floorspace"`
+	Landarea   string `json:"Landarea"`
 }
 
 func addHouseRoutes(rg *gin.RouterGroup) {
@@ -17,25 +22,45 @@ func addHouseRoutes(rg *gin.RouterGroup) {
 
 	// get all houses
 	house.GET("", func(ctx *gin.Context) {
-		hs := getHouses()
-
-		ctx.JSON(http.StatusOK, hs)
+		houses := getHouses()
+		ctx.JSON(http.StatusOK, houses)
 	})
 
 	// get house by id
 	house.GET(":id", func(ctx *gin.Context) {
 		id := ctx.Param("id")
-		ctx.JSON(http.StatusOK, "house"+id)
+		house := getHouse(id)
+		ctx.JSON(http.StatusOK, house)
+	})
+
+	// create new house
+	house.POST("", func(ctx *gin.Context) {
+		house := postHouse(ctx.Params)
+		ctx.JSON(http.StatusOK, house)
 	})
 }
 
 func getHouses() []House {
-	// h1 := new(House)
-	// h1.ID = 1
-	// h1.Address = "4321 test road"
 	var houses []House
-
 	db.Find(&houses)
-
 	return houses
+}
+
+func getHouse(id string) House {
+	var house House
+	db.First(&house, id)
+	return house
+}
+
+func postHouse(params gin.Params) House {
+	house := House{
+		Address:    params.ByName("address"),
+		Bedrooms:   params.ByName("bedrooms"),
+		Bathrooms:  params.ByName("bathrooms"),
+		Garage:     params.ByName("garage"),
+		Floorspace: params.ByName("floorspace"),
+		Landarea:   params.ByName("landarea"),
+	}
+	db.Create(&house)
+	return house
 }
