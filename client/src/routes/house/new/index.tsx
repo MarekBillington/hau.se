@@ -25,12 +25,12 @@ export default component$(() => {
 
     return (
         <div>
-            Address: <input type="text"></input>
-            Bedrooms: <input type="number" min={1}></input>
-            Bathroom: <input type="number" min={1}></input>
-            Garage: <input type="number" min={0}></input>
-            Floorspace (m^2): <input type="number" min={0}></input>
-            Landarea (m^2): <input type="number" min={0}></input>
+            Address: <input type="text"></input><br/>
+            Bedrooms: <input type="number" min={1}></input><br/>
+            Bathroom: <input type="number" min={1}></input><br/>
+            Garage: <input type="number" min={0}></input><br/>
+            Floorspace (m^2): <input type="number" min={0}></input><br/>
+            Landarea (m^2): <input type="number" min={0}></input><br/>
             <input type="button" onClick$={submit} />
         </div>
     )

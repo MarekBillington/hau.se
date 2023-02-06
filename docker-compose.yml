@@ -1,18 +1,18 @@
 version: '3.8'
 
 services:
-  client:
-    build:
-      context: client
-      dockerfile: Dockerfile
-    volumes:
-      - ./client:/var/hause/client:delegated
-  server:
-    build:
-      context: server-go
-      dockerfile: Dockerfile
-    ports:
-      - '8000:8000'
+  # client:
+  #   build:
+  #     context: client
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - ./client:/var/hause/client:delegated
+  # server:
+  #   build:
+  #     context: server-go
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - '8000:8000'
   db:
     image: postgres:15.1
     restart: always
@@ -23,8 +23,15 @@ services:
       - '5432:5432'
     volumes:
       - db:/var/lib/postgresql/data
+  web:
+    build:
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    environment:
+      - NGINX_HOST=dev.hau.se
+      - NGINX_PORT=80
 
 volumes:
   db:
     driver: local
-  server:
