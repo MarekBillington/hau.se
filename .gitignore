@@ -2,6 +2,8 @@
 /rust/target/
 /client/node_modules/
 /client/.vscode/
+/client/server/
+/client/dist/
 *.exe
 *.pdb
 *.d

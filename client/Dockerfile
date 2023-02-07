@@ -1,9 +1,19 @@
-FROM node:18.13.0
+FROM node:18.13.0-alpine AS build
 
-COPY . ./var/hause/client
-WORKDIR /var/hause/client
-
-EXPOSE 5173
-
+WORKDIR /app
+COPY package*.json ./
 RUN npm install
-CMD [ "npm start" ]
+COPY ./ .
+RUN npm run build
+
+FROM node:18.13.0-alpine AS prod
+
+WORKDIR /app
+
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/server ./server
+COPY --from=build /app/dist ./dist
+
+EXPOSE 3000
+
+CMD [ "node", "server/entry.express" ]
