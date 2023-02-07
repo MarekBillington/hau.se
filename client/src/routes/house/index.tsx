@@ -1,25 +1,13 @@
-import { component$, Resource, useResource$, useStore } from '@builder.io/qwik';
-import Popup from '~/components/popup/popup';
+import { component$, Resource, useResource$ } from '@builder.io/qwik';
 import House from './house';
 
 export const Houses = component$(() => {
-    const state = useStore({
-        isOpen: false
-    })
 
     const houseList = useResource$(async () => {
         const res = await fetch('http://localhost:8000/house');
         console.log(res)
         return res.json();
     })
-
-    function renderNewHouse() {
-        state.isOpen = true;
-    }
-
-    const handlePopup = () => {
-        state.isOpen = false;
-    }
 
     return (
         <div>

@@ -1,19 +1,19 @@
 import { $, component$, Resource, useResource$ } from "@builder.io/qwik";
-import { Link, useLocation } from '@builder.io/qwik-city';
+import { useLocation } from '@builder.io/qwik-city';
 import House from '../house'
 
-export default component$((props) => {
+export default component$(() => {
     const location = useLocation();
 
     const house = useResource$(async () => {
-        let res = await fetch("http://localhost:8000/house/"+location.params.houseId)
+        const res = await fetch("http://localhost:8000/house/"+location.params.houseId)
         console.log(res)
         return res.json()
     })
 
     const submit  = $(async () => {
         // @todo WHY WONT YOU WORK? >> stupid CORS
-        let res = await fetch("http://localhost:8000/house/"+location.params.houseId, {
+        const res = await fetch("http://localhost:8000/house/"+location.params.houseId, {
             headers: {
                 'Access-Control-Allow-Origin': '*'
             },

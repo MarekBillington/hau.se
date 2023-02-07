@@ -9,7 +9,7 @@ export default component$(() => {
     })
 
     const submit = $(async () => {
-        let res = await fetch('http://localhost:8000/house', {
+        const res = await fetch('http://localhost:8000/house', {
             method: 'POST',
             body: JSON.stringify(state)
         })
