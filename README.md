@@ -2,24 +2,23 @@
  
 ## Front end - Qwik (React)
 
+> Required: node 18.13.0
+
 cd ./hau.se/client & npm run
 
 localhost:5173
 
 node_modules ~ 
 
-## Back End - Rocket (Rust)
-SEE: https://itnext.io/creating-a-rust-web-app-with-rocket-and-diesel-58f5f6cacd27#856adi
+## Back End - Gin (Go)
 
-cd ./hau.se/server & cargo run
+> Required: golang 1.19.5
 
-localhost:8000
-
-`cargo install diesel_cli@2.0.1 --no-default-features --features postgres`
->> if error: linking with `cc` failed: exit status: 1 
->> Do `sudo apt-get install libpq-dev`
-
+cd ./hau.se/server & go run .
 
 ## Postgres (RDS)
 
 postgres://postgres:postgres@localhost:5432
+
+w/ docker
+    

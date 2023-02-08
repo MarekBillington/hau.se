@@ -1,18 +1,22 @@
 version: '3.8'
 
 services:
+  # Postgres rds
   db:
     image: postgres:15.1
     container_name: db
     restart: always
     environment:
+      - DATABASE_HOST=db
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     ports:
       - 5432:5432
     volumes:
       - db:/var/lib/postgresql/data
-  
+    networks:
+      - house
+  # nginx container doing reverse proxy for client and server
   nginx:
     image: nginx:1.17.10-alpine
     container_name: nginx
@@ -22,7 +26,9 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf
     ports:
       - 80:80
-
+    networks:
+      - house
+  # front end container runnning QWIK React framework
   client:
     image: client
     container_name: client
@@ -30,17 +36,25 @@ services:
       context: client
     ports:
       - 3000:3000
-
-  # server:
-  #   image: server
-  #   containter_name: server
-  #   build:
-  #     context: ./server-go
-  #   depends_on:
-  #     - db
-  #   ports:
-  #     - 8001:8001
+    networks:
+      - house
+  # back end container running Gin golang
+  server:
+    image: server
+    build:
+      context: server
+    depends_on:
+      - db
+    ports:
+      - 8001:8001
+    networks:
+      - house
 
 volumes:
   db:
     driver: local
+
+networks:
+  house:
+    driver: bridge
+

@@ -5,7 +5,7 @@ export const App = component$(() => {
   
   return (
     <>
-      Eventually we want upfront metrics here...
+      Eventually we want upfront metrics over there somewhere...
     </>
   );
 });
