@@ -3,6 +3,7 @@ version: '3.8'
 services:
   db:
     image: postgres:15.1
+    container_name: db
     restart: always
     environment:
       - POSTGRES_USER=postgres
@@ -12,9 +13,11 @@ services:
     volumes:
       - db:/var/lib/postgresql/data
   
-  nginx-router:
+  nginx:
     image: nginx:1.17.10-alpine
     container_name: nginx
+    depends_on:
+      - client
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
     ports:
@@ -29,10 +32,12 @@ services:
       - 3000:3000
 
   # server:
-  #   image: web-server
-  #   containter_name: web_server
+  #   image: server
+  #   containter_name: server
   #   build:
-  #     context: ./server-go/Dockerfile
+  #     context: ./server-go
+  #   depends_on:
+  #     - db
   #   ports:
   #     - 8001:8001
 
