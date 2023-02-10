@@ -4,15 +4,19 @@ import House from './house';
 export const Houses = component$(() => {
 
     const houseList = useResource$(async () => {
-        const res = await fetch('http://localhost/api/house');
-        console.log(res)
-        return res.json();
+        try {
+            const res = await fetch('http://hause-server-1:8001/api/house');
+            console.log(res)
+            return await res.json();
+        } catch (err) {
+            console.log(err)
+        }
     })
 
     return (
         <div>
             <div>
-                <a href="/house/new">Add House</a>
+                <a href="/house/new">Add New House</a>
             </div>
             <div>
                 <Resource 

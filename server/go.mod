@@ -29,9 +29,4 @@ require (
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gorm.io/driver/postgres v1.4.6 // indirect
 	gorm.io/gorm v1.24.3 // indirect
-	house v1.0.0
-)
-
-replace (
-	house v1.0.0 => ./house
 )

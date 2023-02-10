@@ -36,6 +36,10 @@ services:
       context: client
     ports:
       - 3000:3000
+    volumes:
+      - ./client/dist:/app/dist
+      - ./client/node_modules:/app/node_modules
+      - ./client/server:/app/server
     networks:
       - house
   # back end container running Gin golang
@@ -47,6 +51,8 @@ services:
       - db
     ports:
       - 8001:8001
+    volumes:
+      - ./server:/usr/src/app
     networks:
       - house
 

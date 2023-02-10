@@ -11,6 +11,6 @@ func Setup(rg *gin.RouterGroup, conn *gorm.DB) {
 	
 	db = conn
 	
-	InitDb()
-	AddRoutes(rg)
+	initDb()
+	addRoutes(rg)
 }

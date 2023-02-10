@@ -6,19 +6,17 @@ export default component$(() => {
     const location = useLocation();
 
     const house = useResource$(async () => {
-        const res = await fetch("http://localhost:8000/house/"+location.params.houseId)
+        const res = await fetch("http://localhost/api/house/"+location.params.houseId)
         console.log(res)
         return res.json()
     })
 
     const submit  = $(async () => {
-        // @todo WHY WONT YOU WORK? >> stupid CORS
-        const res = await fetch("http://localhost:8000/house/"+location.params.houseId, {
+        const res = await fetch("http://localhost/api/house/"+location.params.houseId, {
             headers: {
                 'Access-Control-Allow-Origin': '*'
             },
-            mode:"no-cors",
-            method: 'PUT'
+            method: 'PATCH'
         })
         console.log(res.json)
     })

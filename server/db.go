@@ -2,18 +2,17 @@ package main
 
 import (
 	"log"
-	"fmt"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
-func Init() *gorm.DB {
+func Init(isDev bool) *gorm.DB {
 
-	//dbURL := "postgres://postgres:postgres@127.0.0.1:5432/postgres"
 	dsn := "host=db user=postgres password=postgres dbname=postgres port=5432 sslmode=disable TimeZone=Europe/London"
-
-	fmt.Println(dsn);
+	if (isDev) {
+		dsn = "postgres://postgres:postgres@127.0.0.1:5432/postgres"
+	}
 
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 

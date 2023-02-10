@@ -17,8 +17,7 @@ type House struct {
 	Landarea   string `json:"Landarea"`
 }
 
-
-func AddRoutes(rg *gin.RouterGroup) {
+func addRoutes(rg *gin.RouterGroup) {
 
 	house := rg.Group("/house")
 
@@ -36,13 +35,13 @@ func AddRoutes(rg *gin.RouterGroup) {
 	})
 
 	// create new house
-	house.POST("", func(ctx *gin.Context) {
-		house := postHouse(ctx.Params)
-		ctx.JSON(http.StatusOK, house)
-	})
+	// house.POST("", func(ctx *gin.Context) {
+	// 	house := postHouse(ctx.Params)
+	// 	ctx.JSON(http.StatusOK, house)
+	// })
 }
 
-func InitDb() {
+func initDb() {
 	db.AutoMigrate(&House{})
 }
 
