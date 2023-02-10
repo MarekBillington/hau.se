@@ -4,7 +4,7 @@ import House from './house';
 export const Houses = component$(() => {
 
     const houseList = useResource$(async () => {
-        const res = await fetch('http://localhost:8001/house');
+        const res = await fetch('http://localhost/api/house');
         console.log(res)
         return res.json();
     })

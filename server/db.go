@@ -10,7 +10,7 @@ import (
 
 func Init() *gorm.DB {
 
-	// dbURL := "postgres://postgres:postgres@127.0.0.1:5432/postgres"
+	//dbURL := "postgres://postgres:postgres@127.0.0.1:5432/postgres"
 	dsn := "host=db user=postgres password=postgres dbname=postgres port=5432 sslmode=disable TimeZone=Europe/London"
 
 	fmt.Println(dsn);
@@ -20,8 +20,6 @@ func Init() *gorm.DB {
 	if err != nil {
 		log.Fatalln(err)
 	}
-
-	db.AutoMigrate(&House{})
 
 	return db
 }

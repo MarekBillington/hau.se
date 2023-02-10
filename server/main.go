@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/MarekBillington/hau.se/server/house"
 	"gorm.io/gorm"
 )
 
@@ -12,8 +13,9 @@ func main() {
 	r := gin.Default()
 	db = Init()
 
-	home := r.Group("/")
-	addHouseRoutes(home)
+	root := r.Group("/api")
+
+	house.Setup(root, db)
 
 	r.Run(":8001")
 }

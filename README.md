@@ -6,7 +6,7 @@
 
 cd ./hau.se/client & npm run
 
-localhost:5173
+Local testing and building goes to localhost:5173
 
 node_modules ~ 
 
@@ -18,7 +18,9 @@ cd ./hau.se/server & go run .
 
 ## Postgres (RDS)
 
-postgres://postgres:postgres@localhost:5432
 
-w/ docker
-    
+
+## Nginx
+
+Front end is distributed at http://localhost/
+Back end is distributed at http://localhost/api/
