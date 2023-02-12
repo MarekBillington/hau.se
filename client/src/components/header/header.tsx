@@ -1,4 +1,5 @@
 import { component$, useStylesScoped$ } from '@builder.io/qwik';
+import { Link } from '@builder.io/qwik-city';
 import styles from './header.css?inline';
 
 export default component$(() => {
@@ -7,25 +8,30 @@ export default component$(() => {
   return (
     <header>
       <div class="logo">
-        <a href="/" >
+        <Link href='/'>
           <h1>&#127968; Hause</h1>
-        </a>
+        </Link>
       </div>
       <ul>
         <li>
-          <a href="/house">
+          <Link href='/house'>
             Houses
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="/tenant">
+          <Link href='/tenant'>
             Tenants
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="/report">
+          <Link href='/report'>
             Reports
-          </a>
+          </Link>
+        </li>
+        <li>
+          <Link href='/admin'>
+            Admin
+          </Link>
         </li>
       </ul>
     </header>

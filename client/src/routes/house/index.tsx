@@ -1,28 +1,24 @@
 import { component$, Resource, useResource$ } from '@builder.io/qwik';
+import { Link } from '@builder.io/qwik-city';
+import { request } from '~/components/api/api';
 import House from './house';
 
 export const Houses = component$(() => {
 
     const houseList = useResource$(async () => {
-        try {
-            const res = await fetch('http://hause-server-1:8001/api/house');
-            console.log(res)
-            return await res.json();
-        } catch (err) {
-            console.log(err)
-        }
+        return request('house', 'GET', {})
     })
 
     return (
         <div>
             <div>
-                <a href="/house/new">Add New House</a>
+                <Link href='/house/new'>Add New House</Link>
             </div>
             <div>
                 <Resource 
                     value={houseList}
                     onResolved={(houses: Array<House>) => {
-                        console.log(houses)    
+                        console.log(houses)
                         
                         const hs = houses.map(h => {
                             return <House {...h}/>

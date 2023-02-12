@@ -1,4 +1,5 @@
 import { component$, useStore, $ } from "@builder.io/qwik";
+import { request } from "~/components/api/api";
 
 export default component$(() => {
     const state = useStore({
@@ -9,12 +10,8 @@ export default component$(() => {
     })
 
     const submit = $(async () => {
-        const res = await fetch('http://localhost:8000/house', {
-            method: 'POST',
-            body: JSON.stringify(state)
-        })
+        const res = request('/house', 'POST', JSON.stringify(state))
         console.log(res)
-
         return (
             <>
                 {/* close popup or error */}

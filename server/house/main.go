@@ -8,9 +8,14 @@ import (
 var db *gorm.DB
 
 func Setup(rg *gin.RouterGroup, conn *gorm.DB) {
-	
+
 	db = conn
-	
+
 	initDb()
-	addRoutes(rg)
+	AddRoutes(rg)
+}
+
+func initDb() {
+	// @todo make migrations only run on dev flag
+	db.AutoMigrate(&House{})
 }
