@@ -10,7 +10,8 @@
  */
 export async function request(endpoint: string, method: string, body?: {}) {
     // @todo https://vitejs.dev/guide/env-and-mode.html
-    const url = 'http://host.docker.internal:8001/api/'
+    const url = 'http://dev.hau.se/api/'
+    // const url = 'http://localhost/api/'
 
     let header = {}
     if (method != 'GET') {
@@ -25,7 +26,6 @@ export async function request(endpoint: string, method: string, body?: {}) {
             url + endpoint,
             header
         )
-        console.log(res)
         // @todo look at making typed objects that are returned?
         return await res.json()
     } catch (err) {

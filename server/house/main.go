@@ -12,10 +12,10 @@ func Setup(rg *gin.RouterGroup, conn *gorm.DB) {
 	db = conn
 
 	initDb()
-	AddRoutes(rg)
+	addRoutes(rg)
 }
 
 func initDb() {
 	// @todo make migrations only run on dev flag
-	db.AutoMigrate(&House{})
+	db.AutoMigrate(&house{})
 }

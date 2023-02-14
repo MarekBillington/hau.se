@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"hause/house"
+	"hause/portfolio"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -22,6 +23,7 @@ func main() {
 	root := r.Group("/api")
 
 	house.Setup(root, db)
+	portfolio.Setup(root, db)
 
 	r.Run(":8001")
 }

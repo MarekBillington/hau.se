@@ -20,8 +20,8 @@ services:
   nginx:
     image: nginx:1.17.10-alpine
     container_name: nginx
-    depends_on:
-      - client
+    # depends_on:
+    #   - client
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
     ports:

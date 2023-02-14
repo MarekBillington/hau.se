@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func AddRoutes(rg *gin.RouterGroup) {
+func addRoutes(rg *gin.RouterGroup) {
 
 	// @todo should pass
 	house := rg.Group("/house")
@@ -33,7 +33,7 @@ func AddRoutes(rg *gin.RouterGroup) {
 }
 
 func getHouses(ctx *gin.Context) {
-	var houses []House
+	var houses []house
 
 	db.Find(&houses)
 
@@ -42,7 +42,7 @@ func getHouses(ctx *gin.Context) {
 
 func getHouse(ctx *gin.Context) {
 	id := ctx.Param("id")
-	var house House
+	var house house
 
 	db.First(&house, id)
 
@@ -50,7 +50,7 @@ func getHouse(ctx *gin.Context) {
 }
 
 func postHouse(ctx *gin.Context) {
-	var house House
+	var house house
 
 	if err := ctx.ShouldBindJSON(&house); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -63,8 +63,8 @@ func postHouse(ctx *gin.Context) {
 
 func patchHouse(ctx *gin.Context) {
 	id := ctx.Param("id")
-	var house House
-	var newHouse House
+	var newHouse house
+	var house house
 
 	db.First(&house, id)
 	if house.ID == 0 {
@@ -81,6 +81,4 @@ func patchHouse(ctx *gin.Context) {
 	db.Model(&house).Updates(&newHouse)
 
 	ctx.JSON(http.StatusOK, house)
-
-	
 }

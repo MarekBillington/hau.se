@@ -1,7 +1,7 @@
 package house
 
 // @todo custom validators https://pkg.go.dev/github.com/gin-gonic/gin#readme-custom-validators
-type House struct {
+type house struct {
 	ID         int    `json:"id" gorm:"primaryKey"`
 	Address    string `json:"address" binding:"required"`
 	Bedrooms   int    `json:"bedrooms"`
