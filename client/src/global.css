@@ -7,10 +7,10 @@
  */
 
 :root {
-  --qwik-dark-blue: #006ce9;
-  --qwik-light-blue: #18b6f6;
-  --qwik-light-purple: #5fc581;
-  --qwik-dark-purple: #216b1f;
+  --hause-dark-blue: #006ce9;
+  --hause-light-blue: #18b6f6;
+  --hause-light-green: #5fc581;
+  --hause-dark-green: #216b1f;
 }
 
 body {
@@ -20,11 +20,11 @@ body {
 }
 
 main {
-  max-width: 760px;
+  max-width: 1080px;
   margin: 0 auto;
   background-color: white;
   border-radius: 5px;
-  box-shadow: 0px 0px 130px -50px var(--qwik-light-purple);
+  box-shadow: 0px 0px 130px -50px var(--hause-light-green);
   overflow: hidden;
 }
 
@@ -39,7 +39,7 @@ h2 {
 
 section {
   padding: 20px;
-  border-bottom: 10px solid var(--qwik-dark-blue);
+  border-bottom: 10px solid var(--hause-dark-blue);
 }
 
 ul {
@@ -53,16 +53,18 @@ li {
 }
 
 li::marker {
-  color: var(--qwik-light-blue);
+  color: var(--hause-light-blue);
 }
 
 a,
 a:visited {
-  color: var(--qwik-dark-blue);
+  text-decoration: none;
+  color: var(--hause-dark-blue);
 }
 
 a:hover {
   text-decoration: none;
+  color: var(--hause-light-blue);
 }
 
 table.commands {
@@ -101,25 +103,6 @@ footer a:hover {
   text-decoration: underline;
 }
 
-a.mindblow {
-  margin: 0 auto;
-  display: block;
-  background: var(--qwik-dark-purple);
-  padding: 10px 20px;
-  border-radius: 10px;
-  border: 0;
-  color: white;
-  text-decoration: none;
-  font-size: 20px;
-  width: fit-content;
-  border-bottom: 4px solid black;
-  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>🤯</text></svg>")
-      16 0,
-    auto; /*!emojicursor.app*/
-}
-
-a.mindblow:hover {
-  border-bottom-width: 0px;
-  margin-bottom: 4px;
-  transform: translateY(4px);
+.house-form {
+  padding: 10px
 }

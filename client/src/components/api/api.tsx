@@ -1,5 +1,4 @@
 
-
 /**
  * Aggregating request function
  * 
@@ -20,7 +19,7 @@ export async function request(endpoint: string, method: string, body?: {}) {
             body: body
         }
     }
-    
+    console.log(header);
     try {
         const res = await fetch(
             url + endpoint,
@@ -30,6 +29,6 @@ export async function request(endpoint: string, method: string, body?: {}) {
         return await res.json()
     } catch (err) {
         console.log(err)
-        return {}
+        return {} 
     }
 }

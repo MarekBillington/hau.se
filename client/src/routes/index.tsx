@@ -13,7 +13,7 @@ export const App = component$(() => {
 export default App;
 
 export const head: DocumentHead = {
-  title: 'Hau.se',
+  title: 'Hause',
   meta: [
     {
       name: 'description',

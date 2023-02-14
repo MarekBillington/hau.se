@@ -1,0 +1,14 @@
+.styled-button {
+    color: var(--hause-dark-blue);
+    width: 64px;
+    height: 25px;
+    border: 1.5px solid;
+    border-radius: 3px;
+    background: none;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.styled-button:hover {
+    color: var(--hause-light-blue);
+}

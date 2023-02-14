@@ -1,7 +1,11 @@
 header {
   display: flex;
   background: white;
-  border-bottom: 10px solid var(--qwik-dark-purple);
+  border-bottom: 10px solid var(--hause-dark-green);
+}
+
+header .logo {
+  margin-left: 5px;
 }
 
 header .logo a {
@@ -20,15 +24,17 @@ header ul {
 header li {
   display: inline-block;
   margin: 0;
-  padding: 0;
+  padding: 15px 10px;
 }
 
 header li a {
   display: inline-block;
-  padding: 15px 10px;
+  padding: 0;
   text-decoration: none;
+  color: var(--hause-dark-blue);
 }
 
 header li a:hover {
-  text-decoration: underline;
+  text-decoration: none;
+  color: var(--hause-light-blue);
 }
