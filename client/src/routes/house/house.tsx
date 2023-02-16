@@ -5,11 +5,11 @@ import styles from './house.css?inline';
 interface House {
     id: number,
     address: string,
-    bedrooms: string,
-    bathrooms: string,
-    garage: string,
-    floorspace: string,
-    landarea: string,
+    bedrooms: number,
+    bathrooms: number,
+    garage: number,
+    floorspace: number,
+    landarea: number,
 }
 
 export const House = component$((house: House) => {

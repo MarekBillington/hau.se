@@ -8,7 +8,6 @@ import (
 
 func addRoutes(rg *gin.RouterGroup) {
 
-	// @todo should pass
 	house := rg.Group("/house")
 
 	// get all houses
