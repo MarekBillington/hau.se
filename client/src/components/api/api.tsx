@@ -24,11 +24,15 @@ export async function request(endpoint: string, method: string, body?: {}) {
         const res = await fetch(
             url + endpoint,
             header
-        )
+        ).then((response) => response.json())
+        .then((obj) => {
+            return obj;
+        });
+        
         // @todo look at making typed objects that are returned?
-        return await res.json()
+        return res;
     } catch (err) {
         console.log(err)
-        return {} 
+        return {};
     }
 }

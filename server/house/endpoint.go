@@ -34,6 +34,7 @@ func addRoutes(rg *gin.RouterGroup) {
 func getHouses(ctx *gin.Context) {
 	var houses []house
 
+	// @todo the order function don't work... lmao
 	db.Find(&houses).Order("id asc")
 
 	ctx.JSON(http.StatusOK, houses)

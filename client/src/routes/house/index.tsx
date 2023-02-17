@@ -20,7 +20,6 @@ export default component$(() => {
                     value={houseList}
                     onResolved={(houses: Array<House>) => {
                         let hs = {}
-                        console.log(houses);
                         if (Array.isArray(houses)) {
                             hs = houses.map(h => {
                                 return <Panel {...h}/>
@@ -43,7 +42,7 @@ export const Panel = component$((house: House) => {
 
     return (
         <div class="house-tile">
-            <div></div>
+            <div>{/** add an image here eventually */}</div>
             <Link href={house.id.toString()}>
                 {house.address}
             </Link>

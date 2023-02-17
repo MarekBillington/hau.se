@@ -1,5 +1,5 @@
 import { $, component$, QwikChangeEvent, Resource, useResource$, useStore } from "@builder.io/qwik";
-import { DocumentHead, Link, useLocation } from '@builder.io/qwik-city';
+import { DocumentHead, Link, useLocation, useNavigate } from '@builder.io/qwik-city';
 import { request } from "~/components/api/api";
 import { setProperty } from "~/components/common/types";
 import Button from "~/components/inputs/button/button";
@@ -9,6 +9,7 @@ import House from '../house'
 
 export default component$(() => {
     const location = useLocation();
+    const nav = useNavigate();
 
     const store = useStore(
         {
@@ -33,12 +34,13 @@ export default component$(() => {
     });
 
     const submit = $(async () => {
-        console.log(JSON.stringify(store.house));
-        console.log(store.house);
-
         const method = store.isNewHouse ? 'POST' : 'PATCH';
-        const url = 'house/' + (store.isNewHouse ? '' : store.house.id);
-        return request(url, method, JSON.stringify(store.house));
+        const url = 'house' + (store.isNewHouse ? '' : '/' + store.house.id);
+        
+        const h = await request(url, method, JSON.stringify(store.house));
+        // @ts-ignore QWIK framework error This expression is not callable. Type 'RouteNavigate' has no call signatures.ts(2349)
+        // broken??
+        nav('/house/' + h.id);
     });
 
     const onChange = $((event: QwikChangeEvent<HTMLInputElement>) => {
@@ -108,7 +110,7 @@ export default component$(() => {
                                     change={onChange}
                                 />
                                 <br/>
-                                <Button value="Submit" click={submit}/>
+                                <Button value="Save" click={submit} />
                             </div>
                         </div>
                     );
