@@ -20,6 +20,7 @@ export default component$(() => {
                     value={houseList}
                     onResolved={(houses: Array<House>) => {
                         let hs = {}
+                        console.log(houses);
                         if (Array.isArray(houses)) {
                             hs = houses.map(h => {
                                 return <Panel {...h}/>
@@ -39,7 +40,7 @@ export default component$(() => {
 
 export const Panel = component$((house: House) => {
     useStylesScoped$(styles);
-    
+
     return (
         <div class="house-tile">
             <div></div>
