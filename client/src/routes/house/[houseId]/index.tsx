@@ -1,6 +1,7 @@
 import { $, component$, QwikChangeEvent, Resource, useResource$, useStore } from "@builder.io/qwik";
 import { DocumentHead, Link, useLocation } from '@builder.io/qwik-city';
 import { request } from "~/components/api/api";
+import { setProperty } from "~/components/common/types";
 import Button from "~/components/inputs/button/button";
 import Number from "~/components/inputs/number/number";
 import Text from "~/components/inputs/text/text";
@@ -11,7 +12,15 @@ export default component$(() => {
 
     const store = useStore(
         {
-            house: {} as House,
+            house: {
+                id: 0,
+                address: '',
+                bedrooms: 0,
+                bathrooms: 0,
+                garage: 0,
+                floorspace: 0,
+                landarea: 0
+            } as House,
             isNewHouse: false,
         },
         {
@@ -33,9 +42,13 @@ export default component$(() => {
     });
 
     const onChange = $((event: QwikChangeEvent<HTMLInputElement>) => {
-        type keyType = keyof typeof store.house;
-        const n: keyType = event.target.name
-        store['house'][n] = event.target.value;
+        type keyType = keyof (typeof store.house);
+        // @ts-ignore complaining about it being asignable, but it works lmao
+        const k: keyType = event.target.name;
+        
+        const val = isNaN(event.target.valueAsNumber) ? event.target.value : event.target.valueAsNumber;
+        
+        setProperty(store.house, k, val);
     })
 
     return (
@@ -52,24 +65,48 @@ export default component$(() => {
                     return (
                         <div>
                             <h2>{house.address}</h2>
-                            <div class="house-form"> 
-                                {/* @todo https://qwik.builder.io/docs/components/state/#using-context */}
-
-                                Address: <Text 
-                                        value={store.house.address}
-                                        name="address"
-                                        change={onChange}
-                                    />
+                            <div class="house-form">
+                                <Text 
+                                    label="Address:"
+                                    value={store.house.address}
+                                    name="address"
+                                    change={onChange}
+                                />
                                 <br/>
-                                Bedrooms: <Number value={store.house.bedrooms} name="bedrooms" change={onChange}/>
+                                <Number 
+                                    label="Bedrooms:"
+                                    value={store.house.bedrooms} 
+                                    name="bedrooms" 
+                                    change={onChange}
+                                />
                                 <br/>
-                                Bathroom: <Number value={store.house.bathrooms}  name="bathrooms" change={onChange}/>
+                                <Number 
+                                    label="Bathroom:"
+                                    value={store.house.bathrooms}  
+                                    name="bathrooms" 
+                                    change={onChange}
+                                />
                                 <br/>
-                                Garage: <Number value={store.house.garage}  name="garage" change={onChange}/>
+                                <Number
+                                    label="Garage:"
+                                    value={store.house.garage}  
+                                    name="garage" 
+                                    change={onChange}
+                                />
                                 <br/>
-                                Floorspace (m&sup2;): <Number value={store.house.floorspace}  name="floorspace" change={onChange}/>
+                                <Number 
+                                    label="Floorspace (m&sup2;):"
+                                    value={store.house.floorspace}  
+                                    name="floorspace" 
+                                    change={onChange}
+                                />
                                 <br/>
-                                Landarea (m&sup2;): <Number value={store.house.landarea}  name="landarea" change={onChange}/>
+                                <Number 
+                                    label="Landarea (m&sup2;):"
+                                    value={store.house.landarea}  
+                                    name="landarea" 
+                                    change={onChange}
+                                />
                                 <br/>
                                 <Button value="Submit" click={submit}/>
                             </div>

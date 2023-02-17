@@ -6,6 +6,9 @@ export default component$((props: any) => {
 
     return (
         <>
+            <label class="styled-label">
+                {props.label}
+            </label>
             <input 
                 class="styled-number"
                 type="number"
