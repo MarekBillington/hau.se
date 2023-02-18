@@ -29,6 +29,11 @@ func addRoutes(rg *gin.RouterGroup) {
 	house.PATCH(":id", func(ctx *gin.Context) {
 		patchHouse(ctx)
 	})
+
+	// delete/disable house
+	house.DELETE(":id", func(ctx *gin.Context) {
+		disableHouse(ctx)
+	})
 }
 
 func getHouses(ctx *gin.Context) {
@@ -81,4 +86,22 @@ func patchHouse(ctx *gin.Context) {
 	db.Model(&house).Updates(&newHouse)
 
 	ctx.JSON(http.StatusOK, house)
+}
+
+func disableHouse(ctx *gin.Context) {
+	id := ctx.Param("id")
+
+	var newHouse = house{
+		Active: false,
+	}
+	var house house
+
+	db.First(&house, id)
+	if house.ID == 0 {
+		// @todo move to validation?
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Could not find object by id"})
+		return
+	}
+
+	db.Model(&house).Updates(&newHouse)
 }

@@ -38,10 +38,21 @@ export default component$(() => {
         const url = 'house' + (store.isNewHouse ? '' : '/' + store.house.id);
         
         const h = await request(url, method, JSON.stringify(store.house));
-        // @ts-ignore QWIK framework error This expression is not callable. Type 'RouteNavigate' has no call signatures.ts(2349)
-        // broken??
-        nav('/house/' + h.id);
+        
+        // @todo can make smarter so it doesn't go back to house page
+        let refresh = '/house'
+        if (!isNaN(h.id)) {
+            refresh = refresh + h.id
+        }
+        nav(refresh)
     });
+
+    const disable = $(async () => {
+        const url = 'house' + (store.isNewHouse ? '' : '/' + store.house.id);
+        
+        const h = await request(url, 'DELETE');
+        nav('/house')
+    })
 
     const onChange = $((event: QwikChangeEvent<HTMLInputElement>) => {
         type keyType = keyof (typeof store.house);
@@ -55,67 +66,45 @@ export default component$(() => {
 
     return (
         <>
-            <Link href="/house">Back</Link>
-            <br />
-            <Resource 
-                value={resHouse}
-                onResolved={(house: House) => {
-                    store.house = house;
-                    if (house.id === 0) {
-                        store.isNewHouse = true;
-                    }
-                    return (
-                        <div>
-                            <h2>{house.address}</h2>
-                            <div class="house-form">
-                                <Text 
-                                    label="Address:"
-                                    value={store.house.address}
-                                    name="address"
-                                    change={onChange}
-                                />
-                                <br/>
-                                <Number 
-                                    label="Bedrooms:"
-                                    value={store.house.bedrooms} 
-                                    name="bedrooms" 
-                                    change={onChange}
-                                />
-                                <br/>
-                                <Number 
-                                    label="Bathroom:"
-                                    value={store.house.bathrooms}  
-                                    name="bathrooms" 
-                                    change={onChange}
-                                />
-                                <br/>
-                                <Number
-                                    label="Garage:"
-                                    value={store.house.garage}  
-                                    name="garage" 
-                                    change={onChange}
-                                />
-                                <br/>
-                                <Number 
-                                    label="Floorspace (m&sup2;):"
-                                    value={store.house.floorspace}  
-                                    name="floorspace" 
-                                    change={onChange}
-                                />
-                                <br/>
-                                <Number 
-                                    label="Landarea (m&sup2;):"
-                                    value={store.house.landarea}  
-                                    name="landarea" 
-                                    change={onChange}
-                                />
-                                <br/>
-                                <Button value="Save" click={submit} />
+            <div class="toolbar">
+                <div class="toolbar-left">
+                    <Link href="/house">Back</Link>
+                </div>
+                <div class="toolbar-right">
+                    <Button value="Disable" click={disable} />
+                </div>
+            </div>
+            <div>
+                <Resource 
+                    value={resHouse}
+                    onResolved={(house: House) => {
+                        store.house = house;
+                        if (house.id === 0) {
+                            store.isNewHouse = true;
+                        }
+                        return (
+                            <div>
+                                <h2>{house.address}</h2>
+                                <div class="house-form">
+                                    <Text label="Address:" value={store.house.address} name="address" change={onChange}/>
+                                    <br/>
+                                    <Number label="Bedrooms:" value={store.house.bedrooms} name="bedrooms" change={onChange}/>
+                                    <br/>
+                                    <Number label="Bathroom:" value={store.house.bathrooms} name="bathrooms" change={onChange}/>
+                                    <br/>
+                                    <Number label="Garage:" value={store.house.garage} name="garage" change={onChange}/>
+                                    <br/>
+                                    <Number label="Floorspace (m&sup2;):" value={store.house.floorspace} name="floorspace" change={onChange}/>
+                                    <br/>
+                                    <Number label="Landarea (m&sup2;):" value={store.house.landarea} name="landarea" change={onChange}/>
+                                    <br/>
+                                    <Button value="Save" click={submit} />
+                                </div>
                             </div>
-                        </div>
-                    );
-                }}
-            />
+                        );
+                    }}
+                />
+            </div>
         </>
     );
 })

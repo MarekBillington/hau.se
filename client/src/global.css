@@ -106,3 +106,17 @@ footer a:hover {
 .house-form {
   padding: 10px
 }
+
+.toolbar {
+  display: inline-block;
+  width: 100%;
+}
+
+.toolbar .toolbar-left {
+  display: inline-block;
+  width: 92%
+}
+
+.toolbar .toolbar-right {
+  display: inline-block;
+}

@@ -18,8 +18,9 @@ export async function request(endpoint: string, method: string, body?: {}) {
             method: method,
             body: body
         }
+        console.log(header);
     }
-    console.log(header);
+    
     try {
         const res = await fetch(
             url + endpoint,
