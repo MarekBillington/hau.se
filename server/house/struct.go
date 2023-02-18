@@ -7,7 +7,7 @@ type house struct {
 	ID         int       `json:"id" gorm:"primaryKey"`
 	Active     bool      `json:"active" gorm:"notNull;default:true"`
 	CreatedAt  time.Time `json:"createdAt"`
-	UpdateAt   time.Time `json:"updateAt"`
+	UpdatedAt  time.Time `json:"updateAt"`
 	Address    string    `json:"address" binding:"required" gorm:"index"`
 	Bedrooms   int       `json:"bedrooms"`
 	Bathrooms  int       `json:"bathrooms"`

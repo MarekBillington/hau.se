@@ -91,9 +91,6 @@ func patchHouse(ctx *gin.Context) {
 func disableHouse(ctx *gin.Context) {
 	id := ctx.Param("id")
 
-	var newHouse = house{
-		Active: false,
-	}
 	var house house
 
 	db.First(&house, id)
@@ -103,5 +100,7 @@ func disableHouse(ctx *gin.Context) {
 		return
 	}
 
-	db.Model(&house).Updates(&newHouse)
+	db.Model(&house).Update("active", "false")
+
+	ctx.JSON(http.StatusOK, house)
 }
