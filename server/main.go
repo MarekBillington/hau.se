@@ -25,5 +25,10 @@ func main() {
 	house.Setup(root, db)
 	portfolio.Setup(root, db)
 
-	r.Run(":8001")
+	port := ":8001"
+	if *devRun {
+		port = ":8002"
+	}
+
+	r.Run(port)
 }

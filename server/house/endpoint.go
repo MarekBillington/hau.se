@@ -1,7 +1,9 @@
 package house
 
 import (
+	"fmt"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -30,17 +32,23 @@ func addRoutes(rg *gin.RouterGroup) {
 		patchHouse(ctx)
 	})
 
-	// delete/disable house
-	house.DELETE(":id", func(ctx *gin.Context) {
-		disableHouse(ctx)
+	// enable house
+	house.PATCH(":id/enable", func(ctx *gin.Context) {
+		toggleHouseActive(ctx)
+	})
+
+	// disable house
+	house.PATCH(":id/disable", func(ctx *gin.Context) {
+		toggleHouseActive(ctx)
 	})
 }
 
 func getHouses(ctx *gin.Context) {
 	var houses []house
 
-	// @todo the order function don't work... lmao
-	db.Find(&houses).Order("id asc")
+	query, _ := ctx.GetQuery("active")
+
+	db.Order("id asc").Find(&houses, "active = ?", query)
 
 	ctx.JSON(http.StatusOK, houses)
 }
@@ -88,19 +96,22 @@ func patchHouse(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, house)
 }
 
-func disableHouse(ctx *gin.Context) {
+// Using gorm, we are required to be deliberate when a field is made empty
+// therefore easiest option is to have specific enable/disable endpoints
+// @link https://gorm.io/docs/update.html#Updates-multiple-columns
+func toggleHouseActive(ctx *gin.Context) {
 	id := ctx.Param("id")
 
 	var house house
-
+	fmt.Fprintf(os.Stdout, "%+v", id)
 	db.First(&house, id)
 	if house.ID == 0 {
 		// @todo move to validation?
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Could not find object by id"})
 		return
 	}
-
-	db.Model(&house).Update("active", "false")
+	house.Active = !house.Active
+	db.Model(&house).Update("active", house.Active)
 
 	ctx.JSON(http.StatusOK, house)
 }

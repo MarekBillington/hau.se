@@ -10,13 +10,20 @@ cd ./hau.se/client & npm run
 
 Local testing and building goes to localhost:5173
 
-node_modules ~ 
+https://qwik.builder.io/docs/overview/
+https://github.com/wmertens/styled-vanilla-extract
+https://vanilla-extract.style/documentation/getting-started/
 
 ## Back End - Gin (Go)
 
 > Required: golang 1.19.5
 
-cd ./hau.se/server & go run .
+cd ./hau.se/server & go run . -isDev=true
+
+https://pkg.go.dev/github.com/gin-gonic/gin#section-documentation
+
+Local port 8002
+Prod port 8001
 
 ## Postgres (RDS)
 

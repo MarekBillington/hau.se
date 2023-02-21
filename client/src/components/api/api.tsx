@@ -10,7 +10,7 @@
 export async function request(endpoint: string, method: string, body?: {}) {
     // @todo https://vitejs.dev/guide/env-and-mode.html
     const url = 'http://dev.hau.se/api/'
-    // const url = 'http://localhost/api/'
+    // const url = 'http://localhost:8002/api/'
 
     let header = {}
     if (method != 'GET') {

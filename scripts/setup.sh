@@ -14,3 +14,6 @@ go build -v
 # ping them to check they are up...
 echo 'kicking the whale'
 docker restart client hause-server-1
+
+now=$(date +"%T")
+echo "Build Finised at: $now"

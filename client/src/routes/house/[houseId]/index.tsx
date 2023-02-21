@@ -1,5 +1,5 @@
 import { $, component$, QwikChangeEvent, Resource, useResource$, useStore } from "@builder.io/qwik";
-import { DocumentHead, Link, useLocation, useNavigate } from '@builder.io/qwik-city';
+import { DocumentHead, Link, useLocation } from '@builder.io/qwik-city';
 import { request } from "~/components/api/api";
 import { setProperty } from "~/components/common/types";
 import Button from "~/components/inputs/button/button";
@@ -9,49 +9,42 @@ import House from '../house'
 
 export default component$(() => {
     const location = useLocation();
-    const nav = useNavigate();
 
     const store = useStore(
         {
-            house: {
-                id: 0,
-                address: '',
-                bedrooms: 0,
-                bathrooms: 0,
-                garage: 0,
-                floorspace: 0,
-                landarea: 0
-            } as House,
+            isActive: false,
             isNewHouse: false,
+            updated: 0,
+            house: {} as House
         },
         {
             recursive: true
         }
     );
 
-    const resHouse = useResource$(async () => {
-        return request('house/' + location.params.houseId, 'GET', {})
+    const resHouse = useResource$<House>(async ({track}) => {
+        track(() => store.isActive)
+        track(() => store.updated)
+        const h = await request('house/' + location.params.houseId, 'GET', {})
+        store.house = h
+        return h
     });
 
     const submit = $(async () => {
         const method = store.isNewHouse ? 'POST' : 'PATCH';
         const url = 'house' + (store.isNewHouse ? '' : '/' + store.house.id);
         
-        const h = await request(url, method, JSON.stringify(store.house));
+        await request(url, method, JSON.stringify(store.house));
         
-        // @todo can make smarter so it doesn't go back to house page
-        let refresh = '/house'
-        if (!isNaN(h.id)) {
-            refresh = refresh + h.id
-        }
-        nav(refresh)
+        store.updated++
     });
 
-    const disable = $(async () => {
-        const url = 'house' + (store.isNewHouse ? '' : '/' + store.house.id);
+    const toggleActive = $(async () => {
+        const url = 'house' + '/' + store.house.id + (store.house.active ? "/disable" : "/enable");
         
-        const h = await request(url, 'DELETE');
-        nav('/house')
+        await request(url, 'PATCH');
+
+        store.isActive = !store.isActive;
     })
 
     const onChange = $((event: QwikChangeEvent<HTMLInputElement>) => {
@@ -64,6 +57,10 @@ export default component$(() => {
         setProperty(store.house, k, val);
     })
 
+    function isActive() {
+        return store.house.active ? "Disable" : "Enable";
+    }
+
     return (
         <>
             <div class="toolbar">
@@ -71,14 +68,14 @@ export default component$(() => {
                     <Link href="/house">Back</Link>
                 </div>
                 <div class="toolbar-right">
-                    <Button value="Disable" click={disable} />
+                    {/* Turn into styled component with vanilla */}
+                    <Button value={isActive()} click={toggleActive} />
                 </div>
             </div>
             <div>
                 <Resource 
                     value={resHouse}
                     onResolved={(house: House) => {
-                        store.house = house;
                         if (house.id === 0) {
                             store.isNewHouse = true;
                         }
