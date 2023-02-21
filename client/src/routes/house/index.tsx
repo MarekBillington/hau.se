@@ -11,7 +11,7 @@ export default component$(() => {
         houses: []
     })
 
-    const houseList = useResource$(async ({track}) => {
+    const houseList = useResource$<Array<House>>(async ({track}) => {
         track(() => store.isActive);
         const url = 'house?active=' + store.isActive
 

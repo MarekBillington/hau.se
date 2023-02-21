@@ -11,7 +11,9 @@ cd ./hau.se/client & npm run
 Local testing and building goes to localhost:5173
 
 https://qwik.builder.io/docs/overview/
+
 https://github.com/wmertens/styled-vanilla-extract
+
 https://vanilla-extract.style/documentation/getting-started/
 
 ## Back End - Gin (Go)
@@ -30,6 +32,8 @@ Prod port 8001
 
 ## Nginx
 
-Front end is distributed at http://localhost/
-Back end is distributed at http://localhost/api/
+Front end is distributed at http://dev.hau.se/
+
+Back end is distributed at http://dev.hau.se/api/
+
 To fix CORS issue, add `120.0.0.1 dev.hau.se` to `hostsfile`
