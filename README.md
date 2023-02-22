@@ -27,6 +27,16 @@ https://pkg.go.dev/github.com/gin-gonic/gin#section-documentation
 Local port 8002
 Prod port 8001
 
+Struct:
+```
+server (hause)
+    \ user              > split by route group for folder, same name for package
+        \ endpoints.go  > contains routes and controllers
+        \ main.go       > for setup of gin, aggregates routes and db setup for structs
+        \ model.go      > contains model functions to work with gorm
+        \ struct.go     > contains structs used for endpoints and model
+```
+
 ## Postgres (RDS)
 
 
@@ -36,4 +46,4 @@ Front end is distributed at http://dev.hau.se/
 
 Back end is distributed at http://dev.hau.se/api/
 
-To fix CORS issue, add `120.0.0.1 dev.hau.se` to `hostsfile`
+Required, add `120.0.0.1 dev.hau.se` to `hostsfile`

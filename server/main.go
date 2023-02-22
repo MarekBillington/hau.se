@@ -4,6 +4,7 @@ import (
 	"flag"
 	"hause/house"
 	"hause/portfolio"
+	"hause/user"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -24,6 +25,7 @@ func main() {
 
 	house.Setup(root, db)
 	portfolio.Setup(root, db)
+	user.Setup(root, db)
 
 	port := ":8001"
 	if *devRun {
