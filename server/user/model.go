@@ -8,7 +8,15 @@ import (
 	"gorm.io/gorm"
 )
 
-func (u *user) BeforeSave(tx *gorm.DB) error {
+func (u *User) CreateUser() error {
+	err := db.Create(&u).Error
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (u *User) BeforeSave(tx *gorm.DB) error {
 
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.DefaultCost)
 	if err != nil {

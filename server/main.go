@@ -5,6 +5,8 @@ import (
 	"hause/house"
 	"hause/portfolio"
 	"hause/user"
+	"hause/utility/auth"
+	"hause/utility/token"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -21,8 +23,13 @@ func main() {
 	r := gin.Default()
 	db = Init(*devRun)
 
-	root := r.Group("/api")
+	// accessible endpoints that wont be validated
+	authRoute := r.Group("/api/auth")
+	auth.AddRoutes(authRoute)
 
+	// functional endpoints that use JWT middleware
+	root := r.Group("/api")
+	root.Use(token.JWTAuthMiddleware())
 	house.Setup(root, db)
 	portfolio.Setup(root, db)
 	user.Setup(root, db)

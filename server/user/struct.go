@@ -2,7 +2,7 @@ package user
 
 import "time"
 
-type user struct {
+type User struct {
 	ID        int       `json:"id" gorm:"primaryKey"`
 	Active    bool      `json:"active" gorm:"notNull;default:true"`
 	CreatedAt time.Time `json:"createdAt"`
@@ -11,13 +11,4 @@ type user struct {
 	Password  string    `json:"password" gorm:"notNull"`
 	FirstName string    `json:"firstName"`
 	LastName  string    `json:"lastName"`
-}
-
-type register struct {
-	Email    string `json"email" binding:"required"`
-	Password string `json"password" binding:"required"`
-}
-
-type refresh struct {
-	Token string `json"token" binding:"required"`
 }

@@ -17,5 +17,5 @@ func Setup(rg *gin.RouterGroup, conn *gorm.DB) {
 
 func initDb() {
 	// @todo make migrations only run on dev flag
-	db.AutoMigrate(&house{})
+	db.AutoMigrate(&House{})
 }

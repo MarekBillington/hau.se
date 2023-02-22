@@ -16,5 +16,5 @@ func Setup(rg *gin.RouterGroup, conn *gorm.DB) {
 }
 
 func initDb() {
-	db.AutoMigrate(&user{})
+	db.AutoMigrate(&User{})
 }

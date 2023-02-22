@@ -3,7 +3,7 @@ package house
 import "time"
 
 // @todo custom validators https://pkg.go.dev/github.com/gin-gonic/gin#readme-custom-validators
-type house struct {
+type House struct {
 	ID         int       `json:"id" gorm:"primaryKey"`
 	Active     bool      `json:"active" gorm:"notNull;default:true"`
 	CreatedAt  time.Time `json:"createdAt"`

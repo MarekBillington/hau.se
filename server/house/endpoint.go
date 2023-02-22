@@ -13,38 +13,26 @@ func addRoutes(rg *gin.RouterGroup) {
 	house := rg.Group("/house")
 
 	// get all houses
-	house.GET("", func(ctx *gin.Context) {
-		getHouses(ctx)
-	})
+	house.GET("", getHouses)
 
 	// get house by id
-	house.GET(":id", func(ctx *gin.Context) {
-		getHouse(ctx)
-	})
+	house.GET(":id", getHouse)
 
 	// create new house
-	house.POST("", func(ctx *gin.Context) {
-		postHouse(ctx)
-	})
+	house.POST("", postHouse)
 
 	// update house
-	house.PATCH(":id", func(ctx *gin.Context) {
-		patchHouse(ctx)
-	})
+	house.PATCH(":id", patchHouse)
 
 	// enable house
-	house.PATCH(":id/enable", func(ctx *gin.Context) {
-		toggleHouseActive(ctx)
-	})
+	house.PATCH(":id/enable", toggleHouseActive)
 
 	// disable house
-	house.PATCH(":id/disable", func(ctx *gin.Context) {
-		toggleHouseActive(ctx)
-	})
+	house.PATCH(":id/disable", toggleHouseActive)
 }
 
 func getHouses(ctx *gin.Context) {
-	var houses []house
+	var houses []House
 
 	query, _ := ctx.GetQuery("active")
 
@@ -55,15 +43,19 @@ func getHouses(ctx *gin.Context) {
 
 func getHouse(ctx *gin.Context) {
 	id := ctx.Param("id")
-	var house house
+	var house House
 
 	db.First(&house, id)
+
+	if house.ID == 0 {
+		ctx.JSON(http.StatusOK, gin.H{})
+	}
 
 	ctx.JSON(http.StatusOK, house)
 }
 
 func postHouse(ctx *gin.Context) {
-	var house house
+	var house House
 
 	if err := ctx.ShouldBindJSON(&house); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -76,8 +68,8 @@ func postHouse(ctx *gin.Context) {
 
 func patchHouse(ctx *gin.Context) {
 	id := ctx.Param("id")
-	var newHouse house
-	var house house
+	var newHouse House
+	var house House
 
 	db.First(&house, id)
 	if house.ID == 0 {
@@ -102,7 +94,7 @@ func patchHouse(ctx *gin.Context) {
 func toggleHouseActive(ctx *gin.Context) {
 	id := ctx.Param("id")
 
-	var house house
+	var house House
 	fmt.Fprintf(os.Stdout, "%+v", id)
 	db.First(&house, id)
 	if house.ID == 0 {
