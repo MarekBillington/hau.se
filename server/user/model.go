@@ -29,3 +29,7 @@ func (u *User) BeforeSave(tx *gorm.DB) error {
 
 	return nil
 }
+
+func (u *User) FindByEmail(email string) {
+	db.First(&u, "email = ?", email)
+}

@@ -15,12 +15,16 @@ func addRoutes(rg *gin.RouterGroup) {
 	})
 }
 
+// Get User by Id
+// No password provided on response
 func getUser(ctx *gin.Context) {
 	id := ctx.Param("id")
 
 	var user User
 
 	db.Find(&user, id)
+
+	user.Password = ""
 
 	ctx.JSON(http.StatusOK, user)
 }
