@@ -1,4 +1,6 @@
 import { $, component$, QwikChangeEvent, useStore } from "@builder.io/qwik";
+import { DocumentHead } from "@builder.io/qwik-city";
+import { login } from "~/components/auth/auth";
 import { setProperty } from "~/components/common/types";
 import Button from "~/components/inputs/button/button";
 import Password from "~/components/inputs/password/password";
@@ -9,11 +11,6 @@ export default component$(() => {
     const store = useStore({
         email: "",
         password: "",
-    })
-
-    const login = $(async () => {
-
-
     })
 
     const onChange = $((event: QwikChangeEvent<HTMLInputElement>) => {
@@ -34,16 +31,22 @@ export default component$(() => {
                 value={store.email}
                 change={onChange}
             />
+            <br/>
             <Password
                 label="Password"
                 name="password"
                 value={store.password}
                 change={onChange}
             />
+            <br/>
             <Button 
                 value="Login"
-                click={login}
+                click={() => login(store.email, store.password)}
             />
         </>
     )
 })
+
+export const head: DocumentHead = {
+    title: 'Hause'
+};

@@ -4,11 +4,11 @@
 
 # rebuild client and server
 echo 'setting up client'
-cd ../client
+cd ~/www/hau.se/client
 npm run build
 
 echo 'setting up server'
-cd ../server
+cd ~/www/hau.se/server
 go build -v
 
 # ping them to check they are up...

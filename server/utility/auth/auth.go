@@ -4,6 +4,7 @@ import (
 	"hause/user"
 	"hause/utility/token"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
@@ -42,6 +43,8 @@ func loginUser(ctx *gin.Context) {
 		return
 	}
 
+	exp := time.Now().Add(time.Minute * time.Duration(60)).Unix()
+
 	// on correct create new token and serve
 	str := user.Email
 	token, err := token.GenerateToken(str, 60)
@@ -50,7 +53,10 @@ func loginUser(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"token": token})
+	// @todo tidy up url
+	ctx.SetCookie("token", token, int(exp), "/", "dev.hau.se", false, true)
+
+	ctx.JSON(http.StatusOK, gin.H{"token": token, "expires": exp})
 }
 
 // Register creates the user with a provided email and password
@@ -75,6 +81,8 @@ func registerUser(ctx *gin.Context) {
 	}
 	str := user.Email
 
+	exp := time.Now().Add(time.Minute * time.Duration(60)).Unix()
+
 	token, err := token.GenerateToken(str, 60)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -82,7 +90,7 @@ func registerUser(ctx *gin.Context) {
 	}
 	// set to header the refresh token cookie
 
-	ctx.JSON(http.StatusOK, gin.H{"token": token})
+	ctx.JSON(http.StatusOK, gin.H{"token": token, "expires": exp})
 }
 
 // Refresh access token with provided refresh token provided on first request
