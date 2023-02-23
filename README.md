@@ -37,6 +37,8 @@ server (hause)
         \ struct.go     > contains structs used for endpoints and model
 ```
 
+Debug `fmt.Fprintf(os.Stdout, "%+v", val)`
+
 ## Postgres (RDS)
 
 

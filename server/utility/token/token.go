@@ -21,7 +21,8 @@ func GenerateToken(signature string, d int64) (string, error) {
 	return token.SignedString([]byte("shhh it's a secret"))
 }
 
-func extractToken(c *gin.Context) (string, error) {
+// expected that token will be in request cookie
+func ExtractBearerToken(c *gin.Context) (string, error) {
 
 	bearerToken := c.Request.Header.Get("Authorization")
 	if len(strings.Split(bearerToken, " ")) == 2 {
@@ -31,16 +32,13 @@ func extractToken(c *gin.Context) (string, error) {
 	return "", fmt.Errorf("%v", "Could not find JWT token in header")
 }
 
-func tokenValid(c *gin.Context) (string, error) {
-	tokenString, err := extractToken(c)
-	if err != nil {
-		return "", err
-	}
+func TokenValid(token string) (string, error) {
 
-	t, err := jwt.Parse(tokenString, func(t *jwt.Token) (interface{}, error) {
+	t, err := jwt.Parse(token, func(t *jwt.Token) (interface{}, error) {
 		if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("Unexpected signing method: %v", t.Header["alg"])
 		}
+		// @todo replace with env variable
 		return []byte("shhh it's a secret"), nil
 	})
 

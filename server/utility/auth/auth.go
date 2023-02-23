@@ -32,7 +32,6 @@ func loginUser(ctx *gin.Context) {
 	}
 
 	var user user.User
-
 	user.FindByEmail(reg.Email)
 
 	// hash the password and check against the matched email
@@ -45,18 +44,26 @@ func loginUser(ctx *gin.Context) {
 
 	exp := time.Now().Add(time.Minute * time.Duration(60)).Unix()
 
-	// on correct create new token and serve
+	// on correct create new token which is served as output
 	str := user.Email
-	token, err := token.GenerateToken(str, 60)
+	t, err := token.GenerateToken(str, 60)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	// refresh token is set to browser cookie
+	refexp := time.Now().Add(time.Hour * time.Duration(24)).Unix()
+	r, _ := token.GenerateToken(str, refexp)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	// @todo tidy up url
-	ctx.SetCookie("token", token, int(exp), "/", "dev.hau.se", false, true)
+	ctx.SetCookie("refresh", r, int(refexp), "/", "dev.hau.se", false, true)
 
-	ctx.JSON(http.StatusOK, gin.H{"token": token, "expires": exp})
+	ctx.JSON(http.StatusOK, gin.H{"token": t, "expiry": exp})
 }
 
 // Register creates the user with a provided email and password
@@ -79,22 +86,61 @@ func registerUser(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	str := user.Email
 
+	str := user.Email
 	exp := time.Now().Add(time.Minute * time.Duration(60)).Unix()
 
-	token, err := token.GenerateToken(str, 60)
+	// create token that is sent for FE memory to handle
+	t, err := token.GenerateToken(str, 60)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	// create refresh token that is set to cookie
+	refexp := time.Now().Add(time.Hour * time.Duration(24)).Unix()
+	r, _ := token.GenerateToken(str, refexp)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	// @todo tidy up url
+	ctx.SetCookie("refresh", r, int(refexp), "/", "dev.hau.se", false, true)
 	// set to header the refresh token cookie
 
-	ctx.JSON(http.StatusOK, gin.H{"token": token, "expires": exp})
+	ctx.JSON(http.StatusOK, gin.H{"token": t, "expires": exp})
 }
 
 // Refresh access token with provided refresh token provided on first request
 // Returns with new JWT and Refresh tokens
 func refreshUser(ctx *gin.Context) {
-	// @todo
+
+	// get cookie from request, check it is valid
+	refToken, err := ctx.Cookie("refresh")
+	if err != nil {
+		ctx.String(http.StatusUnauthorized, "Unauthorized")
+		return
+	}
+
+	userEmail, err := token.TokenValid(refToken)
+	if err != nil {
+		ctx.String(http.StatusUnauthorized, "Unauthorized")
+		return
+	}
+
+	var u user.User
+	u.FindByEmail(userEmail)
+
+	exp := time.Now().Add(time.Minute * time.Duration(60)).Unix()
+
+	// on correct create new token which is served as output
+	str := u.Email
+	t, err := token.GenerateToken(str, 60)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"token": t, "expiry": exp})
 }

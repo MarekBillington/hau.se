@@ -6,7 +6,6 @@ import (
 	"hause/portfolio"
 	"hause/user"
 	"hause/utility/auth"
-	"hause/utility/token"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -29,7 +28,7 @@ func main() {
 
 	// functional endpoints that use JWT middleware
 	root := r.Group("/api")
-	root.Use(token.JWTAuthMiddleware())
+	root.Use(auth.JWTAuthMiddleware())
 	house.Setup(root, db)
 	portfolio.Setup(root, db)
 	user.Setup(root, db)

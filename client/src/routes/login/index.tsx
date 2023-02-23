@@ -23,7 +23,9 @@ export default component$(() => {
         setProperty(store, k, val);
     })
 
-    return (
+    const click = $(()=> login(store.email, store.password));
+
+    return ( 
         <>
             <Text 
                 label="Email"
@@ -41,7 +43,7 @@ export default component$(() => {
             <br/>
             <Button 
                 value="Login"
-                click={() => login(store.email, store.password)}
+                click={click}
             />
         </>
     )

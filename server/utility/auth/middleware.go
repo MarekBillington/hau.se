@@ -1,6 +1,7 @@
-package token
+package auth
 
 import (
+	"hause/utility/token"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -8,8 +9,15 @@ import (
 
 func JWTAuthMiddleware() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		_, err := tokenValid(ctx)
+		tk, err := token.ExtractBearerToken(ctx)
 		if err != nil {
+			ctx.String(http.StatusUnauthorized, "Unauthorized")
+			ctx.Abort()
+			return
+		}
+
+		_, e := token.TokenValid(tk)
+		if e != nil {
 			ctx.String(http.StatusUnauthorized, "Unauthorized")
 			ctx.Abort()
 			return

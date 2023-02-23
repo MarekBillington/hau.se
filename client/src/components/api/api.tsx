@@ -1,4 +1,4 @@
-import { checkAuth, getToken } from "../auth/auth";
+import { checkAuth } from "../auth/auth";
 
 /**
  * Aggregating request function
@@ -25,12 +25,6 @@ export async function request(endpoint: string, method: string, body?: {}) {
     try {
         await checkAuth()
         // add token to header
-        const token = await getToken()
-        header = {
-            headers: {
-                Authentication: "Bearer " + token
-            }
-        }
 
         const res = await fetch(
             url + endpoint,
