@@ -1,46 +1,56 @@
-import { $ } from "@builder.io/qwik"
-import { request } from "../api/api"
+import { $ } from "@builder.io/qwik";
+import { refreshReq } from "../api/api";
 
-
-export const checkAuth = $(() => {
-
-    // @todo https://github.com/BuilderIO/qwik/issues/2451
-
-    // const token = document.cookie
-    //         .split("; ")
-    //         .find((row) => row.startsWith("tkn="))
-    //         ?.split("="[1])
-
-    // const expiry = document.cookie
-    //     .split("; ")
-    //     .find((row) => row.startsWith("exp="))
-    //     ?.split("="[1])
-
-    // console.log(expiry)
-    // console.log(token)
-
-    console.log(document.cookie)
-    
-    //const now = Math.floor(Date.now())
-    // let val = true
-
-    return true
-})
-
+/**
+ * For use of storing session JWT
+ */
+export interface Auth {
+  token: string;
+  expiry: number;
+}
 
 export const login = $(async (email: string, password: string) => {
-    // @todo hash password for sending
-    await request("auth/login", "POST", JSON.stringify({
-        "email": email,
-        "password": password
-    }))
+  // @todo hash password for sending
+  const res = await fetch("http://dev.hau.se/api/auth/login", {
+    method: "POST",
+    body: JSON.stringify({
+      email: email,
+      password: password,
+    }),
+  })
+    .then((response) => response.json())
+    .then((obj) => {
+      return obj;
+    });
+  return res;
+});
+
+export const signup = $(async (email: string, password: string) => {
+  // @todo hash password for sending
+  const res = await fetch("http://dev.hau.se/api/auth/register", {
+    method: "POST",
+    body: JSON.stringify({
+      email: email,
+      password: password,
+    }),
+  })
+    .then((response) => response.json())
+    .then((obj) => {
+      return obj;
+    });
+  return res;
+});
+
+export const getTokenOrRefresh = $(async (auth: Auth) => {
+    if (auth.expiry <= Math.floor(Date.now() / 1000)) {
+        await refreshToken(auth)
+    }
+    return auth.token
 })
 
-export const getToken = $(() => {
-    const token = document.cookie
-            .split("; ")
-            .find((row) => row.startsWith("tkn="))
-            ?.split("="[1])
-    
-    return token
-})
+export const refreshToken = $(async (auth: Auth) => {
+  const res = await refreshReq();
+  
+  auth.token = res.token
+  auth.expiry = res.expiry
+});

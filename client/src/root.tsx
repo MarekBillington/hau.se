@@ -1,8 +1,23 @@
-import { component$, useStyles$ } from '@builder.io/qwik';
-import { QwikCityProvider, RouterOutlet, ServiceWorkerRegister } from '@builder.io/qwik-city';
-import { RouterHead } from './components/router-head/router-head';
+import {
+  component$,
+  createContextId,
+  useBrowserVisibleTask$,
+  useContextProvider,
+  useStore,
+  useStyles$,
+  useTask$,
+} from "@builder.io/qwik";
+import {
+  QwikCityProvider,
+  RouterOutlet,
+  ServiceWorkerRegister,
+} from "@builder.io/qwik-city";
+import { Auth } from "./components/auth/auth";
+import { RouterHead } from "./components/router-head/router-head";
 
-import globalStyles from './global.css?inline';
+import globalStyles from "./global.css?inline";
+export const authCtx = createContextId<Auth>("auth");
+export const userSession = createContextId("userSession");
 
 export default component$(() => {
   /**
@@ -11,7 +26,26 @@ export default component$(() => {
    *
    * Dont remove the `<head>` and `<body>` elements.
    */
+
+  const store = useStore({
+    token: "",
+    expiry: 0,
+  } as Auth);
+
+  useContextProvider(authCtx, store);
+  useTask$(({track}) => {
+    track(() => store.token)
+    console.log(store.token)
+    console.log(store.expiry)
+  })
+
   useStyles$(globalStyles);
+
+  console.log("root called");
+
+  useBrowserVisibleTask$(() => {
+    console.log("rendering root");
+  });
 
   return (
     <QwikCityProvider>

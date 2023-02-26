@@ -1,26 +1,19 @@
-import {
-  $,
-  component$,
-  QwikChangeEvent,
-  useContext,
-  useStore,
-} from "@builder.io/qwik";
-import { DocumentHead, useNavigate } from "@builder.io/qwik-city";
-import { login } from "~/components/auth/auth";
+import { $, component$, QwikChangeEvent, useStore } from "@builder.io/qwik";
+import { DocumentHead } from "@builder.io/qwik-city";
+import { signup } from "~/components/auth/auth";
 import { setProperty } from "~/components/common/types";
 import Button from "~/components/inputs/button/button";
 import Password from "~/components/inputs/password/password";
 import Text from "~/components/inputs/text/text";
-import { authCtx } from "~/root";
 
 export default component$(() => {
-  const auth = useContext(authCtx);
   const store = useStore({
     email: "",
+    firstName: "",
+    lastName: "",
     password: "",
+    repassword: "",
   });
-
-  const nav = useNavigate()
 
   const onChange = $((event: QwikChangeEvent<HTMLInputElement>) => {
     type keyType = keyof typeof store;
@@ -32,11 +25,8 @@ export default component$(() => {
     setProperty(store, k, val);
   });
 
-  const click = $(async () => {
-    const res = await login(store.email, store.password);
-    auth.token = res.token;
-    auth.expiry = res.expiry;
-    nav('/')
+  const click = $(() => {
+    signup(store.email, store.password)
   });
 
   return (
@@ -50,7 +40,28 @@ export default component$(() => {
         change={onChange}
       />
       <br />
-      <Button value="Login" click={click} />
+      <Password
+        label="Re-type Password"
+        name="repassword"
+        value={store.password}
+        change={onChange}
+      />
+      <br />
+      <Text
+        label="First Name"
+        name="firstName"
+        value={store.password}
+        change={onChange}
+      />
+      <br />
+      <Text
+        label="Last Name"
+        name="lastName"
+        value={store.password}
+        change={onChange}
+      />
+      <br />
+      <Button value="Signup" click={click} />
     </>
   );
 });

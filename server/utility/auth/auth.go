@@ -24,18 +24,18 @@ func AddRoutes(rg *gin.RouterGroup) {
 // Login user with provided Email and Password
 // Returns JWT for use as Bearer token
 func loginUser(ctx *gin.Context) {
-	var reg register
+	var login login
 
-	if err := ctx.ShouldBindJSON(&reg); err != nil {
+	if err := ctx.ShouldBindJSON(&login); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	var user user.User
-	user.FindByEmail(reg.Email)
+	user.FindByEmail(login.Email)
 
 	// hash the password and check against the matched email
-	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(reg.Password))
+	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(login.Password))
 	if err != nil {
 		// respond with correct error message
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -77,8 +77,10 @@ func registerUser(ctx *gin.Context) {
 	}
 
 	user := user.User{
-		Email:    reg.Email,
-		Password: reg.Password,
+		Email:     reg.Email,
+		Password:  reg.Password,
+		FirstName: reg.FirstName,
+		LastName:  reg.LastName,
 	}
 
 	err := user.CreateUser()
