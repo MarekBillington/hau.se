@@ -12,12 +12,14 @@ import {
   RouterOutlet,
   ServiceWorkerRegister,
 } from "@builder.io/qwik-city";
-import { Auth } from "./components/auth/auth";
+import { refreshToken } from "./components/auth/auth";
+import { Auth } from "./components/interfaces/auth";
 import { RouterHead } from "./components/router-head/router-head";
-
 import globalStyles from "./global.css?inline";
+
 export const authCtx = createContextId<Auth>("auth");
 export const userSession = createContextId("userSession");
+
 
 export default component$(() => {
   /**
@@ -27,24 +29,30 @@ export default component$(() => {
    * Dont remove the `<head>` and `<body>` elements.
    */
 
-  const store = useStore({
-    token: "",
-    expiry: 0,
-  } as Auth);
-
-  useContextProvider(authCtx, store);
-  useTask$(({track}) => {
-    track(() => store.token)
-    console.log(store.token)
-    console.log(store.expiry)
-  })
-
   useStyles$(globalStyles);
-
-  console.log("root called");
+  const store = useStore({
+      auth: {
+        token: "",
+        expiry: 0,
+      } as Auth
+    },
+    {
+      deep: true
+    }
+  );
+  useContextProvider(authCtx, store.auth);
+  useTask$(({track}) => {
+    // track top level propery over object property
+    track(() => store.auth)
+  })
 
   useBrowserVisibleTask$(() => {
     console.log("rendering root");
+    if (store.auth.token == "") {
+      console.log('not logged in')
+      refreshToken(store.auth)
+      console.log(store.auth)
+    }
   });
 
   return (

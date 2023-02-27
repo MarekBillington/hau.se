@@ -34,7 +34,7 @@ export default component$(() => {
   const resHouse = useResource$<House>(async ({ track }) => {
     track(() => store.isActive);
     track(() => store.updated);
-    const h = await request("house/" + location.params.houseId, auth, "GET", {});
+    const h = await request("house/" + location.params.houseId, auth, "GET");
     store.house = h;
     return h;
   });

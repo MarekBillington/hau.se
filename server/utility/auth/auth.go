@@ -90,10 +90,10 @@ func registerUser(ctx *gin.Context) {
 	}
 
 	str := user.Email
-	exp := time.Now().Add(time.Minute * time.Duration(60)).Unix()
+	exp := time.Now().Add(time.Minute * time.Duration(10)).Unix()
 
 	// create token that is sent for FE memory to handle
-	t, err := token.GenerateToken(str, 60)
+	t, err := token.GenerateToken(str, exp)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -108,7 +108,7 @@ func registerUser(ctx *gin.Context) {
 	}
 
 	// @todo tidy up url
-	ctx.SetCookie("refresh", r, int(refexp), "/", "dev.hau.se", false, true)
+	ctx.SetCookie("refresh", r, int(refexp), "/", "dev.hau.se", true, true)
 	// set to header the refresh token cookie
 
 	ctx.JSON(http.StatusOK, gin.H{"token": t, "expires": exp})
@@ -134,11 +134,11 @@ func refreshUser(ctx *gin.Context) {
 	var u user.User
 	u.FindByEmail(userEmail)
 
-	exp := time.Now().Add(time.Minute * time.Duration(60)).Unix()
+	exp := time.Now().Add(time.Minute * time.Duration(10)).Unix()
 
 	// on correct create new token which is served as output
 	str := u.Email
-	t, err := token.GenerateToken(str, 60)
+	t, err := token.GenerateToken(str, exp)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

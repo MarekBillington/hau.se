@@ -15,7 +15,7 @@ import House from "../../components/interfaces/house";
 import styles from "./house.css?inline";
 
 export default component$(() => {
-  const auth = useContext(authCtx)
+  const auth = useContext(authCtx);
   const store = useStore({
     isActive: true,
     houses: [],
@@ -25,7 +25,7 @@ export default component$(() => {
     track(() => store.isActive);
     const url = "house?active=" + store.isActive;
 
-    const houses = await request(url, auth, "GET", {});
+    const houses = await request(url, auth, "GET");
     store.houses = houses;
     return houses;
   });

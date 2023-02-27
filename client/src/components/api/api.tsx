@@ -1,6 +1,5 @@
-//import { getTokenOrRefresh } from "../auth/auth";
-
-import { Auth, getTokenOrRefresh } from "../auth/auth";
+import { getTokenOrRefresh } from "../auth/auth";
+import { Auth } from "../interfaces/auth";
 
 // @todo https://vitejs.dev/guide/env-and-mode.html
 // const url = 'http://localhost:8002/api/'
@@ -26,7 +25,7 @@ export async function request(endpoint: string, auth: Auth, method: string, body
   };
 
   // @ts-ignore shutup typescript
-  if (Object.keys(body).length != 0) {
+  if (typeof body !== "undefined" && Object.keys(body).length != 0) {
     options.body = body
   }
 
