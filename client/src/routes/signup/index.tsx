@@ -32,7 +32,7 @@ export default component$(() => {
     const res = await signup(store)
     auth.token = res.token;
     auth.expiry = res.expiry;
-    nav('/')
+    nav('/signup/new/')
   });
 
   return (

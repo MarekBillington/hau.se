@@ -1,5 +1,5 @@
 
-/rust/target/
+/certs/
 /client/node_modules/
 /client/.vscode/
 /client/server/

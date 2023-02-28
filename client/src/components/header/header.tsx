@@ -8,7 +8,6 @@ export default component$(() => {
 
   useStylesScoped$(styles);
 
-  console.log(auth)
   let links;
   if (auth.token != "") {
     links = (

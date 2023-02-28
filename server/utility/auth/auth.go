@@ -42,26 +42,19 @@ func loginUser(ctx *gin.Context) {
 		return
 	}
 
-	exp := time.Now().Add(time.Minute * time.Duration(60)).Unix()
-
 	// on correct create new token which is served as output
-	str := user.Email
-	t, err := token.GenerateToken(str, 60)
+	t, exp, err := serveJWT(user, ctx)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	// refresh token is set to browser cookie
-	refexp := time.Now().Add(time.Hour * time.Duration(24)).Unix()
-	r, _ := token.GenerateToken(str, refexp)
+	err = serveRefCookie(user, ctx)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	// @todo tidy up url
-	ctx.SetCookie("refresh", r, int(refexp), "/", "dev.hau.se", false, true)
 
 	ctx.JSON(http.StatusOK, gin.H{"token": t, "expiry": exp})
 }
@@ -89,26 +82,17 @@ func registerUser(ctx *gin.Context) {
 		return
 	}
 
-	str := user.Email
-	exp := time.Now().Add(time.Minute * time.Duration(10)).Unix()
-
-	// create token that is sent for FE memory to handle
-	t, err := token.GenerateToken(str, exp)
+	t, exp, err := serveJWT(user, ctx)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	// create refresh token that is set to cookie
-	refexp := time.Now().Add(time.Hour * time.Duration(24)).Unix()
-	r, _ := token.GenerateToken(str, refexp)
+	err = serveRefCookie(user, ctx)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	// @todo tidy up url
-	ctx.SetCookie("refresh", r, int(refexp), "/", "dev.hau.se", true, true)
 	// set to header the refresh token cookie
 
 	ctx.JSON(http.StatusOK, gin.H{"token": t, "expires": exp})
@@ -134,15 +118,39 @@ func refreshUser(ctx *gin.Context) {
 	var u user.User
 	u.FindByEmail(userEmail)
 
-	exp := time.Now().Add(time.Minute * time.Duration(10)).Unix()
-
-	// on correct create new token which is served as output
-	str := u.Email
-	t, err := token.GenerateToken(str, exp)
+	t, exp, err := serveJWT(u, ctx)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	ctx.JSON(http.StatusOK, gin.H{"token": t, "expiry": exp})
+}
+
+// Creates the refresh token and sends to set as cookie in response
+func serveRefCookie(u user.User, ctx *gin.Context) error {
+
+	refexp := time.Now().Add(time.Hour * time.Duration(24)).Unix()
+	r, err := token.GenerateToken(u.Email, refexp)
+	if err != nil {
+		return err
+	}
+
+	// @todo tidy up url and for prod set to secure
+	ctx.SetCookie("refresh", r, int(refexp), "/", "dev.hau.se", false, true)
+	return nil
+}
+
+// Creates the auth token used as bearer for rest of api
+func serveJWT(u user.User, ctx *gin.Context) (string, int64, error) {
+	str := u.Email
+	exp := time.Now().Add(time.Minute * time.Duration(10)).Unix()
+
+	// on correct create new token which is served as output
+	t, err := token.GenerateToken(str, exp)
+	if err != nil {
+		return "", 0, err
+	}
+
+	return t, exp, nil
 }

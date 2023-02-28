@@ -9,6 +9,8 @@ import (
 	"github.com/golang-jwt/jwt"
 )
 
+const secret = "shhh it's a secret"
+
 func GenerateToken(signature string, d int64) (string, error) {
 
 	claims := jwt.MapClaims{}
@@ -18,7 +20,7 @@ func GenerateToken(signature string, d int64) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
 	// @todo env replace
-	return token.SignedString([]byte("shhh it's a secret"))
+	return token.SignedString([]byte(secret))
 }
 
 // expected that token will be in request cookie
@@ -39,7 +41,7 @@ func TokenValid(token string) (string, error) {
 			return nil, fmt.Errorf("Unexpected signing method: %v", t.Header["alg"])
 		}
 		// @todo replace with env variable
-		return []byte("shhh it's a secret"), nil
+		return []byte(secret), nil
 	})
 
 	if err != nil {
