@@ -1,8 +1,8 @@
 import { component$, Resource, useContext, useResource$, useStore } from "@builder.io/qwik";
 import { request } from "~/components/api/api";
-import User from "~/components/interfaces/user";
 import { authCtx } from "~/root";
 
+import type User from "~/components/interfaces/user";
 
 export default component$(() => {
   const auth = useContext(authCtx)

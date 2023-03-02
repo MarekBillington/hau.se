@@ -1,5 +1,5 @@
 import { getTokenOrRefresh } from "../auth/auth";
-import { Auth } from "../interfaces/auth";
+import type Auth from "../interfaces/auth";
 
 // @todo https://vitejs.dev/guide/env-and-mode.html
 // const url = 'http://localhost:8002/api/'

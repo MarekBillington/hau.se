@@ -1,5 +1,6 @@
+import type User from "./user";
 
-export interface UserSesstion {
-  user_id: number,
-  portfolio_id: number,
+export default interface UserSession {
+  portfolio: number,
+  user: User
 }

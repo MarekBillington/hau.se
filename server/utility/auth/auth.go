@@ -19,6 +19,9 @@ func AddRoutes(rg *gin.RouterGroup) {
 
 	// Refresh user token
 	rg.POST("/login", loginUser)
+
+	// Logout
+	rg.POST("/logout", logoutUser)
 }
 
 // Login user with provided Email and Password
@@ -153,4 +156,10 @@ func serveJWT(u user.User, ctx *gin.Context) (string, int64, error) {
 	}
 
 	return t, exp, nil
+}
+
+func logoutUser(ctx *gin.Context) {
+	ctx.SetCookie("refresh", "", 0, "/", "dev.hau.se", false, true)
+
+	ctx.JSON(http.StatusOK, "logged out")
 }

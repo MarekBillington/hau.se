@@ -1,14 +1,15 @@
 import { $, component$, QwikChangeEvent, useContext, useStore } from "@builder.io/qwik";
 import { DocumentHead, useNavigate } from "@builder.io/qwik-city";
-import { signup } from "~/components/auth/auth";
+import { getUserInfo, signup } from "~/components/auth/auth";
 import { setProperty } from "~/components/common/types";
 import Button from "~/components/inputs/button/button";
 import Password from "~/components/inputs/password/password";
 import Text from "~/components/inputs/text/text";
-import { authCtx } from "~/root";
+import { authCtx, userSession } from "~/root";
 
 export default component$(() => {
   const auth = useContext(authCtx)
+  const sess = useContext(userSession)
   const store = useStore({
     email: "",
     firstName: "",
@@ -32,6 +33,7 @@ export default component$(() => {
     const res = await signup(store)
     auth.token = res.token;
     auth.expiry = res.expiry;
+    getUserInfo(auth, sess)
     nav('/signup/new/')
   });
 

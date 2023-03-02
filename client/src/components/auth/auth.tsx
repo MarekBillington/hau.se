@@ -1,6 +1,9 @@
 import { $ } from "@builder.io/qwik";
-import { refreshReq } from "../api/api";
-import { Auth } from "../interfaces/auth";
+import { refreshReq, request } from "../api/api";
+
+import type Auth from "../interfaces/auth";
+import type User from "../interfaces/user";
+import type UserSession from "../interfaces/user-session";
 
 export const login = $(async (email: string, password: string) => {
   // @todo hash password for sending
@@ -52,3 +55,29 @@ export const refreshToken = $(async (auth: Auth) => {
   }
 });
 
+export const getUserInfo = $(async (auth: Auth, sess: UserSession) => {  
+  return await request("user/setup", auth, "GET")
+    .then((u: User) => {
+      sess.user = u
+    })
+})
+
+// Just unset all the properties for the stateful objects
+export const destroyUser = $((auth: Auth, sess: UserSession) => {
+  auth.token = ""
+  auth.expiry = 0
+
+  sess.user = {
+    id: 0,
+    email: "",
+    firstName: "",
+    lastName: "",
+  } as User
+  sess.portfolio = 0
+})
+
+export const logout = async (auth: Auth, sess: UserSession) => {
+  await request("auth/logout", auth, "POST")
+  
+  destroyUser(auth, sess)
+}

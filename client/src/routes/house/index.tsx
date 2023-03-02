@@ -11,8 +11,9 @@ import { DocumentHead, Link } from "@builder.io/qwik-city";
 import { request } from "~/components/api/api";
 import Checkbox from "~/components/inputs/checkbox/checkbox";
 import { authCtx } from "~/root";
-import House from "../../components/interfaces/house";
 import styles from "./house.css?inline";
+
+import type House from "../../components/interfaces/house";
 
 export default component$(() => {
   const auth = useContext(authCtx);

@@ -14,7 +14,8 @@ import Button from "~/components/inputs/button/button";
 import Number from "~/components/inputs/number/number";
 import Text from "~/components/inputs/text/text";
 import { authCtx } from "~/root";
-import House from "../../../components/interfaces/house";
+
+import type House from "../../../components/interfaces/house";
 
 export default component$(() => {
   const location = useLocation();
@@ -45,6 +46,7 @@ export default component$(() => {
 
     await request(url, auth, method, JSON.stringify(store.house));
 
+    // triggers the tracking to refresh the screen
     store.updated++;
   });
 

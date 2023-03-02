@@ -1,5 +1,5 @@
 
-export interface Auth {
+export default interface Auth {
   token: string;
   expiry: number;
 }

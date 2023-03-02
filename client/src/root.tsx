@@ -12,14 +12,15 @@ import {
   RouterOutlet,
   ServiceWorkerRegister,
 } from "@builder.io/qwik-city";
-import { refreshToken } from "./components/auth/auth";
-import { Auth } from "./components/interfaces/auth";
-import { UserSesstion } from "./components/interfaces/user-session";
+import { getUserInfo, refreshToken } from "./components/auth/auth";
 import { RouterHead } from "./components/router-head/router-head";
 import globalStyles from "./global.css?inline";
 
+import type Auth from "./components/interfaces/auth";
+import type UserSession from "./components/interfaces/user-session";
+
 export const authCtx = createContextId<Auth>("auth");
-export const userSession = createContextId<UserSesstion>("userSession");
+export const userSession = createContextId<UserSession>("userSession");
 
 
 export default component$(() => {
@@ -36,7 +37,7 @@ export default component$(() => {
         token: "",
         expiry: 0,
       } as Auth,
-      userSession: {} as UserSesstion
+      userSession: {} as UserSession
     },
     { deep: true }
   );
@@ -53,6 +54,7 @@ export default component$(() => {
   useBrowserVisibleTask$(() => {
     if (store.auth.token == "") {
       refreshToken(store.auth);
+      getUserInfo(store.auth, store.userSession)
     }
   });
 
