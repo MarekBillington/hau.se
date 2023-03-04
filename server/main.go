@@ -2,16 +2,16 @@ package main
 
 import (
 	"flag"
+	"hause/auth"
+	"hause/auth/middleware"
 	"hause/house"
 	"hause/portfolio"
-	"hause/user"
-	"hause/utility/auth"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
 
-var db *gorm.DB
+var DB *gorm.DB
 
 func main() {
 
@@ -20,18 +20,19 @@ func main() {
 	flag.Parse()
 
 	r := gin.Default()
-	db = Init(*devRun)
+	DB = Init(*devRun)
 
 	// accessible endpoints that wont be validated
 	authRoute := r.Group("/api/auth")
-	auth.AddRoutes(authRoute)
+	auth.Setup(authRoute, DB)
 
 	// functional endpoints that use JWT middleware
 	root := r.Group("/api")
-	root.Use(auth.JWTAuthMiddleware())
-	house.Setup(root, db)
-	portfolio.Setup(root, db)
-	user.Setup(root, db)
+	root.Use(middleware.JWTAuth())
+
+	house.Setup(root, DB)
+	portfolio.Setup(root, DB)
+	//user.Setup(root, db)
 
 	port := ":8001"
 	if *devRun {
