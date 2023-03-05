@@ -14,7 +14,6 @@ func Setup(rg *gin.RouterGroup, conn *gorm.DB) {
 	}
 
 	// Register new user
-	// @todo can look to use nested function to act as factory to build service specific handler...
 	rg.POST("/register", h.RegisterUser)
 
 	// Refresh user token

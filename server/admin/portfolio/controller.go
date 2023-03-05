@@ -1,19 +1,18 @@
-package admin
+package portfolio
 
 import (
-	"hause/admin/user/service"
+	"hause/admin/portfolio/service"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
 
 func Setup(rg *gin.RouterGroup, conn *gorm.DB) {
-
 	h := service.Handler{
 		DB: conn,
 	}
 
-	user := rg.Group("/user")
+	portfolio := rg.Group("/portfolio")
 
-	user.GET("/setup", h.GetUserFromAuth)
+	portfolio.POST("/create", h.CreatePortfolio)
 }

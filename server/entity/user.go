@@ -11,18 +11,19 @@ import (
 )
 
 type User struct {
-	ID        int       `json:"id" gorm:"primaryKey"`
+	ID        uint      `json:"id" gorm:"primaryKey"`
 	Active    bool      `json:"active" gorm:"notNull;default:true"`
-	CreatedAt time.Time `json:"createdAt"`
-	UpdatedAt time.Time `json:"updateAt"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"update_at"`
 	Email     string    `json:"email" gorm:"notNull;uniqueIndex;"`
-	Password  string    `json:"password" gorm:"notNull"`
-	FirstName string    `json:"firstName"`
-	LastName  string    `json:"lastName"`
+	Password  string    `json:"-" gorm:"notNull"`
+	FirstName string    `json:"first_name"`
+	LastName  string    `json:"last_name"`
+	Language  string    `json:"language"`
 }
 
 // Gorm functionality will trigger this during saving process
-func (u *User) BeforeSave(tx *gorm.DB) error {
+func (u *User) BeforeCreate(tx *gorm.DB) error {
 
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.DefaultCost)
 	if err != nil {

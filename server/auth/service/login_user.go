@@ -21,6 +21,10 @@ func (h Handler) LoginUser(ctx *gin.Context) {
 	}
 
 	user := repository.GetUserFromEmail(login.Email, h.DB)
+	if user.ID == 0 {
+		ctx.String(http.StatusUnauthorized, "Unauthorized")
+		return
+	}
 
 	// hash the password and check against the matched email
 	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(login.Password))

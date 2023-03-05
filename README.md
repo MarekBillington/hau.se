@@ -1,6 +1,6 @@
 # hau.se
 
-When making changes, use the `/scripts/setup.sh` script to build the FE and BE and reload the docker containers
+When making changes, use the `/scripts/setup.sh` script to build the client/server and reload their related docker containers
 
 ## Front end - Qwik (React)
 
@@ -10,11 +10,36 @@ cd ./hau.se/client & npm run
 
 Local testing and building goes to localhost:5173
 
-https://qwik.builder.io/docs/overview/
+> https://qwik.builder.io/docs/overview/
+> https://github.com/wmertens/styled-vanilla-extract
+> https://vanilla-extract.style/documentation/getting-started/
 
-https://github.com/wmertens/styled-vanilla-extract
-
-https://vanilla-extract.style/documentation/getting-started/
+```
+client /
+ src /
+  routes /
+   | index.tsx
+   house /
+    | index.tsx
+   tenants /
+   ...
+ components /
+  house /
+   interfaces /
+    | house.tsx
+   screens /
+    <..name of area>/
+     | panel.tsx
+    <.. name of area> /
+     | form.tsx
+  utility /
+   api /
+    | api.tsx
+   inputs /
+    | button.tsx
+    | text.tsx
+    | ...
+```
 
 ## Back End - Gin (Go)
 
@@ -29,18 +54,34 @@ Prod port 8001
 
 Struct:
 ```
-server (hause)
-    \ user              > split by route group for folder, same name for package
-        \ endpoints.go  > contains routes and controllers
-        \ main.go       > for setup of gin, aggregates routes and db setup for structs
-        \ model.go      > contains model functions to work with gorm
-        \ struct.go     > contains structs used for endpoints and model
+server \
+ | main.go
+ | go.sum
+ | go.mod
+ auth \
+  | controller.go
+  dto \
+   | login.go
+   | ...
+  middleware \
+   | jwt_auth.go
+  repository \
+   | create_user.go
+   | ...
+  service \
+   | handler.go
+   | login_user.go
+   | ...
+ entity \
+ | migration.go
+ | user.go
 ```
 
-Debug `fmt.Fprintf(os.Stdout, "%+v", val)`
+Debuging, use to see cli output `fmt.Fprintf(os.Stdout, "%+v", val)`
 
 ## Postgres (RDS)
 
+Will setup automatically from docker compose
 
 ## Nginx
 

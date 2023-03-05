@@ -2,8 +2,8 @@ package service
 
 import (
 	"hause/auth/dto"
-	"hause/auth/repository"
 	"hause/auth/utility"
+	"hause/entity"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -19,7 +19,7 @@ func (h Handler) RegisterUser(ctx *gin.Context) {
 		return
 	}
 
-	user, err := repository.CreateUser(reg, h.DB)
+	user, err := h.createUser(reg)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -39,4 +39,22 @@ func (h Handler) RegisterUser(ctx *gin.Context) {
 	// set to header the refresh token cookie
 
 	ctx.JSON(http.StatusOK, gin.H{"token": t, "expires": exp})
+}
+
+// private function to act as repo for service
+func (h Handler) createUser(reg dto.Register) (entity.User, error) {
+
+	user := entity.User{
+		Email:     reg.Email,
+		Password:  reg.Password,
+		FirstName: reg.FirstName,
+		LastName:  reg.LastName,
+	}
+
+	err := h.DB.Create(&user).Error
+	if err != nil {
+		return user, err
+	}
+
+	return user, nil
 }

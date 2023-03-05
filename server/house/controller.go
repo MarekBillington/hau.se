@@ -2,24 +2,33 @@ package house
 
 import (
 	"fmt"
+	"hause/entity"
+	"hause/house/service"
 	"net/http"
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
-func addRoutes(rg *gin.RouterGroup) {
+var h service.Handler
+
+func Setup(rg *gin.RouterGroup, conn *gorm.DB) {
+
+	h := service.Handler{
+		DB: conn,
+	}
 
 	house := rg.Group("/house")
+	
+	// create new house
+	house.POST("", h.CreateHouse)
 
 	// get all houses
 	house.GET("", getHouses)
 
 	// get house by id
 	house.GET(":id", getHouse)
-
-	// create new house
-	house.POST("", postHouse)
 
 	// update house
 	house.PATCH(":id", patchHouse)
@@ -32,20 +41,20 @@ func addRoutes(rg *gin.RouterGroup) {
 }
 
 func getHouses(ctx *gin.Context) {
-	var houses []House
+	var houses []entity.House
 
 	query, _ := ctx.GetQuery("active")
 
-	db.Order("id asc").Find(&houses, "active = ?", query)
+	h.DB.Order("id asc").Find(&houses, "active = ?", query)
 
 	ctx.JSON(http.StatusOK, houses)
 }
 
 func getHouse(ctx *gin.Context) {
 	id := ctx.Param("id")
-	var house House
+	var house entity.House
 
-	db.First(&house, id)
+	h.DB.First(&house, id)
 
 	if house.ID == 0 {
 		ctx.JSON(http.StatusOK, gin.H{})
@@ -54,24 +63,12 @@ func getHouse(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, house)
 }
 
-func postHouse(ctx *gin.Context) {
-	var house House
-
-	if err := ctx.ShouldBindJSON(&house); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	db.Create(&house)
-	ctx.JSON(http.StatusOK, house)
-}
-
 func patchHouse(ctx *gin.Context) {
 	id := ctx.Param("id")
-	var newHouse House
-	var house House
+	var newHouse entity.House
+	var house entity.House
 
-	db.First(&house, id)
+	h.DB.First(&house, id)
 	if house.ID == 0 {
 		// @todo move to validation?
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Could not find object by id"})
@@ -83,7 +80,7 @@ func patchHouse(ctx *gin.Context) {
 		return
 	}
 
-	db.Model(&house).Updates(&newHouse)
+	h.DB.Model(&house).Updates(&newHouse)
 
 	ctx.JSON(http.StatusOK, house)
 }
@@ -94,16 +91,16 @@ func patchHouse(ctx *gin.Context) {
 func toggleHouseActive(ctx *gin.Context) {
 	id := ctx.Param("id")
 
-	var house House
+	var house entity.House
 	fmt.Fprintf(os.Stdout, "%+v", id)
-	db.First(&house, id)
+	h.DB.First(&house, id)
 	if house.ID == 0 {
 		// @todo move to validation?
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Could not find object by id"})
 		return
 	}
 	house.Active = !house.Active
-	db.Model(&house).Update("active", house.Active)
+	h.DB.Model(&house).Update("active", house.Active)
 
 	ctx.JSON(http.StatusOK, house)
 }
