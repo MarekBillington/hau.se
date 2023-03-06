@@ -3,7 +3,7 @@ package entity
 import "time"
 
 type UserLink struct {
-	ID          uint      ``
+	ID          uint      `json:"id"`
 	Active      bool      `json:"active" gorm:"notNull;default:true"`
 	CreatedAt   time.Time `json:"created_at"`
 	UpdatedAt   time.Time `json:"update_at"`

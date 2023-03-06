@@ -20,15 +20,15 @@ func Setup(rg *gin.RouterGroup, conn *gorm.DB) {
 	}
 
 	house := rg.Group("/house")
-	
+
 	// create new house
-	house.POST("", h.CreateHouse)
+	house.POST("", h.Setup, h.CreateHouse)
 
 	// get all houses
-	house.GET("", getHouses)
+	house.GET("", h.Setup, h.GetAllHouses)
 
 	// get house by id
-	house.GET(":id", getHouse)
+	house.GET(":id", h.Setup, h.GetHouseById)
 
 	// update house
 	house.PATCH(":id", patchHouse)
@@ -38,29 +38,6 @@ func Setup(rg *gin.RouterGroup, conn *gorm.DB) {
 
 	// disable house
 	house.PATCH(":id/disable", toggleHouseActive)
-}
-
-func getHouses(ctx *gin.Context) {
-	var houses []entity.House
-
-	query, _ := ctx.GetQuery("active")
-
-	h.DB.Order("id asc").Find(&houses, "active = ?", query)
-
-	ctx.JSON(http.StatusOK, houses)
-}
-
-func getHouse(ctx *gin.Context) {
-	id := ctx.Param("id")
-	var house entity.House
-
-	h.DB.First(&house, id)
-
-	if house.ID == 0 {
-		ctx.JSON(http.StatusOK, gin.H{})
-	}
-
-	ctx.JSON(http.StatusOK, house)
 }
 
 func patchHouse(ctx *gin.Context) {

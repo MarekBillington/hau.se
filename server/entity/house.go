@@ -17,6 +17,7 @@ type House struct {
 	Landarea    int       `json:"landarea"`
 	PropertyID  uint      `json:"property_id" gorm:"default:null"`
 	Property    *House    `json:"-" gorm:"foreignKey:PropertyID;default:null"`
+	Address     []Address `json:"address"`
 }
 
 // The Property field is a self-referencial nullable id

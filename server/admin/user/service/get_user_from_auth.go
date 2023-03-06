@@ -1,7 +1,6 @@
 package service
 
 import (
-	"hause/admin/user/repository"
 	"hause/auth/utility"
 	"net/http"
 
@@ -9,16 +8,14 @@ import (
 )
 
 // Get user when auth is available
+// For userSession setup on client only
 func (h Handler) GetUserFromAuth(ctx *gin.Context) {
 
-	// @todo just user token valid and rename
-	signature, err := utility.ValidateToken(ctx)
+	user, err := utility.GetRequestingUser(ctx, h.DB)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err})
 		return
 	}
-
-	user := repository.GetUserFromEmail(signature, h.DB)
 
 	user.Password = ""
 

@@ -15,4 +15,6 @@ func Setup(rg *gin.RouterGroup, conn *gorm.DB) {
 	portfolio := rg.Group("/portfolio")
 
 	portfolio.POST("/create", h.CreatePortfolio)
+
+	portfolio.GET("", h.Setup, h.GetRelatedPortfolio)
 }
