@@ -11,7 +11,9 @@ cd ./hau.se/client & npm run
 Local testing and building goes to localhost:5173
 
 > https://qwik.builder.io/docs/overview/
+>
 > https://github.com/wmertens/styled-vanilla-extract
+>
 > https://vanilla-extract.style/documentation/getting-started/
 
 ```
@@ -47,10 +49,12 @@ client /
 
 cd ./hau.se/server & go run . -isDev=true
 
-https://pkg.go.dev/github.com/gin-gonic/gin#section-documentation
-
 Local port 8002
 Prod port 8001
+
+> https://pkg.go.dev/github.com/gin-gonic/gin#section-documentation
+>
+> https://gorm.io/docs/index.html
 
 Struct:
 ```
