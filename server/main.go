@@ -6,8 +6,8 @@ import (
 	user "hause/admin/user"
 	"hause/auth"
 	security "hause/auth/middleware"
-	"hause/entity"
 	"hause/house"
+	"hause/utility/database"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -23,8 +23,8 @@ func main() {
 
 	r := gin.Default()
 	// Can this be moved to a entity utility that the repo's can access, allowing for the
-	DB = Init(*devRun)
-	entity.InitDb(DB)
+	DB = database.Init(*devRun)
+	database.SetupDb(DB)
 
 	// accessible endpoints that wont be validated
 	authRoute := r.Group("/api/auth")

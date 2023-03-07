@@ -2,6 +2,7 @@ package service
 
 import (
 	"hause/entity"
+	"hause/utility/database/helper"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -12,9 +13,7 @@ func (h *Handler) GetAllHouses(ctx *gin.Context) {
 
 	query, exists := ctx.GetQuery("active")
 
-	tx := h.DB.Preload("Address").
-		Joins("JOIN portfolios ON portfolios.id = houses.portfolio_id").
-		Joins("JOIN user_links ON user_links.portfolio_id = portfolios.id AND user_links.user_id = ?", h.user.ID).
+	tx := helper.JoinPortfolio(h.DB, houses, h.user.ID, "Address").
 		Order("id asc")
 
 	if exists {
