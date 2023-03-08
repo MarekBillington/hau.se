@@ -42,7 +42,7 @@ export default component$(() => {
         console.log(user)
         return (
           <>
-            <h2>Hi {user.firstName}</h2>
+            <h2>Hi {user.first_name}</h2>
           </>
         )
       }}

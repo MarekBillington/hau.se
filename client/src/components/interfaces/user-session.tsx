@@ -1,6 +1,7 @@
+import Portfolio from "./portfolio";
 import type User from "./user";
 
 export default interface UserSession {
-  portfolio: number,
+  portfolio: Portfolio,
   user: User
 }

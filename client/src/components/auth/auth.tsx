@@ -4,6 +4,7 @@ import { refreshReq, request } from "../api/api";
 import type Auth from "../interfaces/auth";
 import type User from "../interfaces/user";
 import type UserSession from "../interfaces/user-session";
+import Portfolio from "../interfaces/portfolio";
 
 // export const url = 'http://localhost:8002/api/'
 export const url = "http://dev.hau.se/api/";
@@ -60,8 +61,9 @@ export const refreshToken = $(async (auth: Auth) => {
 
 export const getUserInfo = $(async (auth: Auth, sess: UserSession) => {  
   return await request("user/setup", auth, "GET")
-    .then((u: User) => {
-      sess.user = u
+    .then((res) => {
+      sess.user = res.user
+      sess.portfolio = res.portfolio
     })
 })
 
@@ -73,10 +75,13 @@ export const destroyUser = $((auth: Auth, sess: UserSession) => {
   sess.user = {
     id: 0,
     email: "",
-    firstName: "",
-    lastName: "",
+    first_name: "",
+    last_name: "",
   } as User
-  sess.portfolio = 0
+  sess.portfolio = {
+    id: 0,
+    name: "",
+  } as Portfolio
 })
 
 export const logout = async (auth: Auth, sess: UserSession) => {

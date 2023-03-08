@@ -14,7 +14,7 @@ export const App = component$(() => {
     content = (
       <>
         Dashboard data <br />
-        Hello {sess.user.firstName}
+        Hello {sess.user.first_name} {sess.user.last_name}
       </>
     )
   }

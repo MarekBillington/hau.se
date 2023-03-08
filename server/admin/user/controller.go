@@ -15,5 +15,5 @@ func Setup(rg *gin.RouterGroup, conn *gorm.DB) {
 
 	user := rg.Group("/user")
 
-	user.GET("/setup", h.GetUserFromAuth)
+	user.GET("/setup", h.GetUserForSetup)
 }

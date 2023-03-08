@@ -9,7 +9,7 @@ npm run build
 
 echo 'setting up server'
 cd ~/www/hau.se/server
-go build -v
+go build -buildvcs=false -v
 
 # ping them to check they are up...
 echo 'kicking the whale'
