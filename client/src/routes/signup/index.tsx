@@ -1,10 +1,10 @@
 import { $, component$, QwikChangeEvent, useContext, useStore } from "@builder.io/qwik";
 import { DocumentHead, useNavigate } from "@builder.io/qwik-city";
-import { getUserInfo, signup } from "~/components/auth/auth";
-import { setProperty } from "~/components/common/types";
-import Button from "~/components/inputs/button/button";
-import Password from "~/components/inputs/password/password";
-import Text from "~/components/inputs/text/text";
+import { getUserInfo, signup } from "~/components/utility/auth/auth";
+import { setProperty } from "~/components/utility/helper/types";
+import Button from "~/components/utility/inputs/button/button";
+import Password from "~/components/utility/inputs/password/password";
+import Text from "~/components/utility/inputs/text/text";
 import { authCtx, userSession } from "~/root";
 
 export default component$(() => {

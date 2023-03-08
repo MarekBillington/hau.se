@@ -1,5 +1,5 @@
 import { component$, Resource, useContext, useResource$, useStore } from "@builder.io/qwik";
-import { request } from "~/components/api/api";
+import { request } from "~/components/utility/api/api";
 import { authCtx } from "~/root";
 
 import type User from "~/components/interfaces/user";

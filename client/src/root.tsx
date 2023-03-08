@@ -12,12 +12,12 @@ import {
   RouterOutlet,
   ServiceWorkerRegister,
 } from "@builder.io/qwik-city";
-import { getUserInfo, refreshToken } from "./components/auth/auth";
-import { RouterHead } from "./components/router-head/router-head";
+import { getUserInfo, refreshToken } from "./components/utility/auth/auth";
+import { RouterHead } from "./components/utility/router-head/router-head";
 import globalStyles from "./global.css?inline";
 
-import type Auth from "./components/interfaces/auth";
-import type UserSession from "./components/interfaces/user-session";
+import type Auth from "./components/utility/auth/interface/auth";
+import type UserSession from "./components/utility/auth/interface/user-session";
 
 export const authCtx = createContextId<Auth>("auth");
 export const userSession = createContextId<UserSession>("userSession");

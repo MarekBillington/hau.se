@@ -5,16 +5,17 @@ import {
   useContext,
   useResource$,
   useStore,
-  useStylesScoped$,
 } from "@builder.io/qwik";
 import { DocumentHead, Link } from "@builder.io/qwik-city";
-import { request } from "~/components/api/api";
-import Checkbox from "~/components/inputs/checkbox/checkbox";
+import { request } from "~/components/utility/api/api";
+import Checkbox from "~/components/utility/inputs/checkbox/checkbox";
 import { authCtx } from "~/root";
-import styles from "./house.css?inline";
 
-import type House from "../../components/interfaces/house";
+import type House from "../../components/house/interfaces/house";
+import { Panel } from "~/components/house/dashboard/panel/panel";
 
+
+// House Dashboard Screen
 export default component$(() => {
   const auth = useContext(authCtx);
   const store = useStore({
@@ -65,19 +66,6 @@ export default component$(() => {
           }}
         />
       </div>
-    </div>
-  );
-});
-
-export const Panel = component$((house: House) => {
-  useStylesScoped$(styles);
-
-  const address = house.address[0]
-    
-  return (
-    <div class="house-tile">
-      <div>{/** add an image here eventually */}</div>
-      <Link href={house.id.toString()}>{address.street_1}</Link>
     </div>
   );
 });

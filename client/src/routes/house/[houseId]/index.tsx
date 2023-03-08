@@ -8,14 +8,15 @@ import {
   useStore,
 } from "@builder.io/qwik";
 import { DocumentHead, Link, useLocation } from "@builder.io/qwik-city";
-import { request } from "~/components/api/api";
-import { setProperty } from "~/components/common/types";
-import Button from "~/components/inputs/button/button";
-import Number from "~/components/inputs/number/number";
-import Text from "~/components/inputs/text/text";
+import { request } from "~/components/utility/api/api";
+import { setProperty } from "~/components/utility/helper/types";
+import Button from "~/components/utility/inputs/button/button";
+import Number from "~/components/utility/inputs/number/number";
+import Text from "~/components/utility/inputs/text/text";
 import { authCtx } from "~/root";
 
-import type House from "../../../components/interfaces/house";
+import type House from "../../../components/house/interfaces/house";
+import HouseForm from "~/components/house/screens/main/house/house-form";
 
 export default component$(() => {
   const location = useLocation();
@@ -97,54 +98,9 @@ export default component$(() => {
               store.isNewHouse = true;
             }
             return (
-              <div>
-                <h2>{house.address[0].street_1}</h2>
-                <div class="house-form">
-                  <Text
-                    label="Address:"
-                    value={store.house.address[0].street_1}
-                    name="address"
-                    change={onChange}
-                  />
-                  <br />
-                  <Number
-                    label="Bedrooms:"
-                    value={store.house.bedrooms}
-                    name="bedrooms"
-                    change={onChange}
-                  />
-                  <br />
-                  <Number
-                    label="Bathroom:"
-                    value={store.house.bathrooms}
-                    name="bathrooms"
-                    change={onChange}
-                  />
-                  <br />
-                  <Number
-                    label="Garage:"
-                    value={store.house.garage}
-                    name="garage"
-                    change={onChange}
-                  />
-                  <br />
-                  <Number
-                    label="Floorspace (m&sup2;):"
-                    value={store.house.floorspace}
-                    name="floorspace"
-                    change={onChange}
-                  />
-                  <br />
-                  <Number
-                    label="Landarea (m&sup2;):"
-                    value={store.house.landarea}
-                    name="landarea"
-                    change={onChange}
-                  />
-                  <br />
-                  <Button value="Save" click={submit} />
-                </div>
-              </div>
+              <HouseForm 
+                house={house}
+              />
             );
           }}
         />
