@@ -5,9 +5,12 @@ import type Auth from "../interfaces/auth";
 import type User from "../interfaces/user";
 import type UserSession from "../interfaces/user-session";
 
+// export const url = 'http://localhost:8002/api/'
+export const url = "http://dev.hau.se/api/";
+
 export const login = $(async (email: string, password: string) => {
   // @todo hash password for sending
-  const res = await fetch("http://dev.hau.se/api/auth/login", {
+  const res = await fetch(url + "auth/login", {
     method: "POST",
     body: JSON.stringify({
       email: email,
@@ -23,7 +26,7 @@ export const login = $(async (email: string, password: string) => {
 
 export const signup = $(async (reg: any) => {
   // @todo hash password for sending
-  const res = await fetch("http://dev.hau.se/api/auth/register", {
+  const res = await fetch(url + "auth/register", {
     method: "POST",
     body: JSON.stringify({
       email: reg.email,

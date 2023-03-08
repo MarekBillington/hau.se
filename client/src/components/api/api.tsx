@@ -19,6 +19,7 @@ export async function request(endpoint: string, auth: Auth, method: string, body
   let options: any = {}
   options = {
     method: method,
+    // mode: "no-cors",
     headers: {
       Authorization: "Bearer " + token,
     },

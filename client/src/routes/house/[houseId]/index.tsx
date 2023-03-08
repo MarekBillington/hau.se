@@ -98,11 +98,11 @@ export default component$(() => {
             }
             return (
               <div>
-                <h2>{house.address}</h2>
+                <h2>{house.address[0].street_1}</h2>
                 <div class="house-form">
                   <Text
                     label="Address:"
-                    value={store.house.address}
+                    value={store.house.address[0].street_1}
                     name="address"
                     change={onChange}
                   />

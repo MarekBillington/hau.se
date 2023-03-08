@@ -12,7 +12,8 @@ func JWTAuth() gin.HandlerFunc {
 
 		_, e := utility.ValidateToken(ctx)
 		if e != nil {
-			ctx.String(http.StatusUnauthorized, "Unauthorized")
+			//fmt.Fprintf(os.Stdout, "%+v", e)
+			ctx.String(http.StatusUnauthorized, e.Error())
 			ctx.Abort()
 			return
 		}

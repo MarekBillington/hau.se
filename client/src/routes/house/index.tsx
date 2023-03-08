@@ -72,10 +72,12 @@ export default component$(() => {
 export const Panel = component$((house: House) => {
   useStylesScoped$(styles);
 
+  const address = house.address[0]
+    
   return (
     <div class="house-tile">
       <div>{/** add an image here eventually */}</div>
-      <Link href={house.id.toString()}>{house.address}</Link>
+      <Link href={house.id.toString()}>{address.street_1}</Link>
     </div>
   );
 });

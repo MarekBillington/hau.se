@@ -28,15 +28,21 @@ func main() {
 
 	// accessible endpoints that wont be validated
 	authRoute := r.Group("/api/auth")
-	auth.Setup(authRoute, DB)
 
 	// functional endpoints that use JWT middleware
-	root := r.Group("/api")
-	root.Use(security.JWTAuth())
+	rootRoute := r.Group("/api")
+	rootRoute.Use(security.JWTAuth())
 
-	house.Setup(root, DB)
-	user.Setup(root, DB)
-	portfolio.Setup(root, DB)
+	if *devRun {
+		authRoute.Use(security.CORSMiddleware())
+		rootRoute.Use(security.CORSMiddleware())
+	}
+
+	auth.Setup(authRoute, DB)
+
+	house.Setup(rootRoute, DB)
+	user.Setup(rootRoute, DB)
+	portfolio.Setup(rootRoute, DB)
 
 	port := ":8001"
 	if *devRun {
