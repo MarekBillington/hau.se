@@ -9,13 +9,13 @@ export const App = component$(() => {
   console.log("main page");
 
   // could use Slots...?
-  let content = (<>Not logged in</>)
+  let content = (<div>Not logged in</div>)
   if (auth.token != '') {
     content = (
-      <>
+      <div>
         Dashboard data <br />
         Hello {sess.user.first_name} {sess.user.last_name}
-      </>
+      </div>
     )
   }
 

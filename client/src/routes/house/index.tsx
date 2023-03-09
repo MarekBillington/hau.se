@@ -12,7 +12,7 @@ import Checkbox from "~/components/utility/inputs/checkbox/checkbox";
 import { authCtx } from "~/root";
 
 import type House from "../../components/house/interfaces/house";
-import { Panel } from "~/components/house/dashboard/panel/panel";
+import { Panel } from "~/components/house/screens/dashboard/panel/panel";
 
 
 // House Dashboard Screen

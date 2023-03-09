@@ -20,7 +20,6 @@ export default component$(() => {
   let links;
   if (auth.token != "") {
     links = (
-      <>
         <ul>
           <li>
             <Link href="/house">Houses</Link>
@@ -39,11 +38,9 @@ export default component$(() => {
             click={doLogout}
           />
         </ul>
-      </>
     );
   } else {
     links = (
-      <>
         <ul>
           <li>
             <Link href="/login">Login</Link>
@@ -52,7 +49,6 @@ export default component$(() => {
             <Link href="/signup">Signup</Link>
           </li>
         </ul>
-      </>
     );
   }
 

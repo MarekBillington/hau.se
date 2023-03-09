@@ -4,7 +4,7 @@ import { refreshReq, request } from "../api/api";
 import type Auth from "./interface/auth";
 import type User from "../../interfaces/user";
 import type UserSession from "./interface/user-session";
-import Portfolio from "../../interfaces/portfolio";
+import type Portfolio from "../../interfaces/portfolio";
 
 // export const url = 'http://localhost:8002/api/'
 export const url = "http://dev.hau.se/api/";

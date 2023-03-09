@@ -1,7 +1,6 @@
 import {
   $,
   component$,
-  QwikChangeEvent,
   Resource,
   useContext,
   useResource$,
@@ -9,14 +8,11 @@ import {
 } from "@builder.io/qwik";
 import { DocumentHead, Link, useLocation } from "@builder.io/qwik-city";
 import { request } from "~/components/utility/api/api";
-import { setProperty } from "~/components/utility/helper/types";
-import Button from "~/components/utility/inputs/button/button";
-import Number from "~/components/utility/inputs/number/number";
-import Text from "~/components/utility/inputs/text/text";
 import { authCtx } from "~/root";
+import Button from "~/components/utility/inputs/button/button";
+import HouseForm from "~/components/house/screens/main/house/house-form";
 
 import type House from "../../../components/house/interfaces/house";
-import HouseForm from "~/components/house/screens/main/house/house-form";
 
 export default component$(() => {
   const location = useLocation();
@@ -46,33 +42,14 @@ export default component$(() => {
     const url = "house" + (store.isNewHouse ? "" : "/" + store.house.id);
 
     await request(url, auth, method, JSON.stringify(store.house));
-
     // triggers the tracking to refresh the screen
     store.updated++;
   });
 
   const toggleActive = $(async () => {
-    const url =
-      "house" +
-      "/" +
-      store.house.id +
-      (store.house.active ? "/disable" : "/enable");
-
+    const url = "house/" + store.house.id + "/active";
     await request(url, auth, "PATCH");
-
     store.isActive = !store.isActive;
-  });
-
-  const onChange = $((event: QwikChangeEvent<HTMLInputElement>) => {
-    type keyType = keyof typeof store.house;
-    // @ts-ignore complaining about it being asignable, but it works lmao
-    const k: keyType = event.target.name;
-
-    const val = isNaN(event.target.valueAsNumber)
-      ? event.target.value
-      : event.target.valueAsNumber;
-
-    setProperty(store.house, k, val);
   });
 
   function isActive() {
@@ -94,13 +71,15 @@ export default component$(() => {
         <Resource
           value={resHouse}
           onResolved={(house: House) => {
+            console.log(house)
             if (house.id === 0) {
               store.isNewHouse = true;
             }
             return (
-              <HouseForm 
-                house={house}
-              />
+              <>
+                <HouseForm {...house} />
+                <Button value="Save" click={submit} />
+              </>
             );
           }}
         />

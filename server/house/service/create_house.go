@@ -39,7 +39,6 @@ func (h *Handler) CreateHouse(ctx *gin.Context) {
 		Town:      new.NewAddress.Town,
 		CountryID: new.NewAddress.CountryID,
 		HouseID:   house.ID,
-		Default: 	 true,
 	}
 
 	h.DB.Create(&address)

@@ -7,8 +7,7 @@ export default interface Address {
   street_1: string;
   street_2: string;
   postcode: string;
-  Town: string;
+  town: string;
   country_id: number;
   house_id: number;
-  default: boolean;
 }

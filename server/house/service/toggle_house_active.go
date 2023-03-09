@@ -28,11 +28,9 @@ func (h Handler) ToggleHouseActive(ctx *gin.Context) {
 	house.Active = !house.Active
 	h.DB.Model(&house).Update("active", house.Active)
 
-	// loop through addresses and set to same active state as house
-	for _, address := range house.Address {
-		address.Active = house.Active
-		h.DB.Model(&address).Update("active", address.Active)
-	}
+	address := house.Address
+	address.Active = house.Active
+	h.DB.Model(&address).Update("active", address.Active)
 
 	ctx.JSON(http.StatusOK, house)
 }

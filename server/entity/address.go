@@ -15,5 +15,4 @@ type Address struct {
 	Country   Country   `json:"-" gorm:"foreignKey:CountryID"`
 	HouseID   uint      `json:"house_id"`
 	House     House     `json:"-" gorm:"foreignKey:HouseID"`
-	Default 	bool 			`json:"default"`
 }
