@@ -1,5 +1,5 @@
 import { $, QwikChangeEvent, component$ } from "@builder.io/qwik";
-import { setProperty } from "~/components/utility/helper/types";
+import { setProperty2 } from "~/components/utility/helper/types";
 import Number from "~/components/utility/inputs/number/number";
 import AddressForm from "./address/address-form";
 
@@ -10,14 +10,15 @@ export default component$((house: House) => {
 
   const onChange = $((event: QwikChangeEvent<HTMLInputElement>) => {
     type keyType = keyof typeof house;
-    // @ts-ignore complaining about it being asignable, but it works lmao
-    const k: keyType = event.target.name;
+    
+    const k: keyType = event.target.name as keyof House;
 
     const val = isNaN(event.target.valueAsNumber)
       ? event.target.value
       : event.target.valueAsNumber;
 
-    setProperty(house, k, val);
+    setProperty2(house, k, val);
+    //house[k] = val
   });
 
   return (
