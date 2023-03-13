@@ -1,11 +1,10 @@
 import {
   component$,
   createContextId,
-  useBrowserVisibleTask$,
   useContextProvider,
   useStore,
   useStyles$,
-  useTask$,
+  useVisibleTask$,
 } from "@builder.io/qwik";
 import {
   QwikCityProvider,
@@ -44,17 +43,11 @@ export default component$(() => {
 
   useContextProvider(authCtx, store.auth);
   useContextProvider(userSession, store.userSession);
-  useTask$(({track}) => {
-    // track top level propery over object property
-    track(() => store.auth);
-    track(() => store.userSession);
-    console.log('root reload');
-  })
-
-  useBrowserVisibleTask$(() => {
+  
+  useVisibleTask$(() => {
     if (store.auth.token == "") {
       refreshToken(store.auth);
-      getUserInfo(store.auth, store.userSession)
+      getUserInfo(store.auth, store.userSession);
     }
   });
 
