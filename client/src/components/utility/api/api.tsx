@@ -13,7 +13,7 @@ const url = "http://dev.hau.se/api/";
  * @param body
  * @returns
  */
-export async function request(endpoint: string, auth: Auth, method: string, body?: {}) {
+export async function request(endpoint: string, auth: Auth, method: string, body?: string) {
   const token = await getTokenOrRefresh(auth)
 
   let options: any = {}

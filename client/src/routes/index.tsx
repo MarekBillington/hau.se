@@ -5,18 +5,15 @@ import { authCtx, userSession } from "~/root";
 export const App = component$(() => {
   const auth = useContext(authCtx)
   const sess = useContext(userSession)
-  
-  console.log("main page");
 
   // could use Slots...?
-  let content = (<div>Not logged in</div>)
+  let content = <div>Not logged in</div>;
   if (auth.token != '') {
-    content = (
+    content =
       <div>
         Dashboard data <br />
         Hello {sess.user.first_name} {sess.user.last_name}
-      </div>
-    )
+      </div>;
   }
 
   return (

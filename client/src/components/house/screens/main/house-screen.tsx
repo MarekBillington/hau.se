@@ -1,12 +1,13 @@
 import { $, Resource, component$, useContext, useResource$, useStore } from "@builder.io/qwik";
 import { Link, useLocation } from "@builder.io/qwik-city";
 import { authCtx, userSession } from "~/root";
-import House from "../../interfaces/house";
 import { request } from "~/components/utility/api/api";
 import { QCE, onChange } from "~/components/utility/helper/event";
 import Button from "~/components/utility/inputs/button/button";
 import Number from "~/components/utility/inputs/number/number";
 import Text from "~/components/utility/inputs/text/text";
+
+import type House from "../../interfaces/house";
 
 export default component$(() => {
   const location = useLocation();
@@ -37,7 +38,6 @@ export default component$(() => {
   });
 
   const submit = $(async () => {
-    console.log(store.isNewHouse)
     const method = store.isNewHouse ? "POST" : "PATCH";
     const url = "house" + (store.isNewHouse ? "" : ("/" + store.house.id));
 
