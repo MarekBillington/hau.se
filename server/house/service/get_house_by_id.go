@@ -12,7 +12,7 @@ func (h *Handler) GetHouseById(ctx *gin.Context) {
 	id := ctx.Param("id")
 	var house entity.House
 
-	helper.JoinPortfolio(h.DB, house, h.user.ID, "Address").
+	helper.JoinPortfolio(h.DB, house, h.user.ID, "").
 		First(&house, id)
 
 	if house.ID == 0 {

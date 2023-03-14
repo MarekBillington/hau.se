@@ -1,8 +1,10 @@
 package service
 
 import (
+	"fmt"
 	"hause/auth/utility"
 	"hause/entity"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -19,4 +21,5 @@ func (h *Handler) Setup(ctx *gin.Context) {
 		return
 	}
 	h.user = user
+	fmt.Fprintf(os.Stdout, "%+v", h.user)
 }

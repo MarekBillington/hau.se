@@ -1,13 +1,15 @@
-import { $, Resource, component$, useContext, useResource$, useStore } from "@builder.io/qwik";
+import { $, Resource, component$, useContext, useResource$, useStore, useTask$ } from "@builder.io/qwik";
 import { Link, useLocation } from "@builder.io/qwik-city";
 import { authCtx, userSession } from "~/root";
 import { request } from "~/components/utility/api/api";
-import { QCE, onChange } from "~/components/utility/helper/event";
+import { QCE, onChange, onChangeNum } from "~/components/utility/helper/event";
 import Button from "~/components/utility/inputs/button/button";
 import Number from "~/components/utility/inputs/number/number";
 import Text from "~/components/utility/inputs/text/text";
 
 import type House from "../../interfaces/house";
+import Dropdown from "~/components/utility/inputs/dropdown/dropdown";
+import { Country } from "~/components/utility/country/interface/country";
 
 export default component$(() => {
   const location = useLocation();
@@ -19,11 +21,26 @@ export default component$(() => {
       isNewHouse: false,
       updated: 0,
       house: {} as House,
+      countries: {
+        default: sess.portfolio.country_id,
+        data: []
+      }
     },
     {
       recursive: true,
     }
   );
+
+  useTask$(async () => {
+    const c = await request("utility/country", auth, "GET")
+    const fc = c.map((obj: Country) => {
+      return {
+        value: obj.id,
+        text: obj.name
+      }
+    })
+    store.countries.data = fc;
+  })
 
   const resHouse = useResource$<House>(async ({ track }) => {
     track(() => store.isActive);
@@ -57,6 +74,7 @@ export default component$(() => {
   }
 
   const handler = $((e: QCE) => onChange(e, store.house))
+  const selectHandler = $((e: QCE) => onChangeNum(e, store.house))
 
   return (
     <>
@@ -77,8 +95,10 @@ export default component$(() => {
               store.isNewHouse = true;
               store.house.portfolio_id = sess.portfolio.id
               // for the sake of working, to create a 
-              store.house.country_id = sess.portfolio.country_id
+              store.house.country_id = store.countries.default
             }
+
+            
             return (
               <>
                 <div>
@@ -93,6 +113,10 @@ export default component$(() => {
                       <br />
                       <Text label="Town:" value={house.town} name="town" change={handler} />
                       <br />
+                      {/* Get options from server task */}
+                      <Dropdown label="Country: " name="country_id" default={store.house.country_id} options={store.countries.data} change={selectHandler} />
+                    </div>
+                    <div>
                       <Number label="Bedrooms:" value={house.bedrooms} name="bedrooms" change={handler} />
                       <br />
                       <Number label="Bathroom:" value={house.bathrooms} name="bathrooms" change={handler} />

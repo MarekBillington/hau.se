@@ -9,5 +9,5 @@ type Country struct {
 	UpdatedAt time.Time `json:"update_at"`
 	Name      string    `json:"name"`
 	Currency  string    `json:"currency"`
-	HasStates bool      `json:"has_stated" gorm:"default:false"`
+	HasStates bool      `json:"has_states" gorm:"default:false"`
 }

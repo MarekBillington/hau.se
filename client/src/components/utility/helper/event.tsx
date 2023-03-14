@@ -14,4 +14,22 @@ export const onChange = (event: QwikChangeEvent<HTMLInputElement>, object: any) 
     : event.target.valueAsNumber;
   
   setProperty(object, k, val);
+
+  console.log(object)
+  console.log(k)
+  console.log(val)
+};
+
+export const onChangeNum = (event: QwikChangeEvent<HTMLInputElement>, object: any) => {
+  type keyType = keyof typeof object;
+  
+  const k: keyType = event.target.name;
+
+  const val = parseInt(event.target.value);
+  
+  setProperty(object, k, val);
+
+  console.log(object)
+  console.log(k)
+  console.log(val)
 };

@@ -1,21 +1,24 @@
 package service
 
 import (
+	"fmt"
 	"hause/entity"
 	"hause/house/dto"
 	mapper "hause/house/helper"
 	"hause/utility/database/helper"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
 
-func (h Handler) UpdateHouse(ctx *gin.Context) {
+func (h *Handler) UpdateHouse(ctx *gin.Context) {
 	id := ctx.Param("id")
 	var input dto.UpdateHouse
 	var house entity.House
 
-	helper.JoinPortfolio(h.DB, house, h.user.ID, "Address").
+	fmt.Fprintf(os.Stdout, "%+v", h.user)
+	helper.JoinPortfolio(h.DB, house, h.user.ID, "").
 		First(&house, id)
 
 	if house.ID == 0 {

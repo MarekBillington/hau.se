@@ -25,8 +25,8 @@ func Setup(rg *gin.RouterGroup, conn *gorm.DB) {
 	house.GET(":id", h.Setup, h.GetHouseById)
 
 	// update house
-	house.PATCH(":id", h.UpdateHouse)
+	house.PATCH(":id", h.Setup, h.UpdateHouse)
 
 	// toggle active flag of house
-	house.PATCH(":id/active", h.ToggleHouseActive)
+	house.PATCH(":id/active", h.Setup, h.ToggleHouseActive)
 }

@@ -11,7 +11,7 @@ import (
 // Using gorm, we are required to be deliberate when a field is made empty
 // therefore easiest option is to have specific enable/disable endpoints
 // @link https://gorm.io/docs/update.html#Updates-multiple-columns
-func (h Handler) ToggleHouseActive(ctx *gin.Context) {
+func (h *Handler) ToggleHouseActive(ctx *gin.Context) {
 	id := ctx.Param("id")
 
 	var house entity.House
