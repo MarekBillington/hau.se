@@ -8,9 +8,9 @@ func JoinPortfolio(db *gorm.DB, table interface{}, user_id uint, preload string)
 		db = db.Preload(preload)
 	}
 
-	// create view
-	db.Joins("Portfolio")
-	//Joins("UserLink")
+	// @todo create view for simpler joining
+	db = db.Joins("Portfolio").
+		Joins("JOIN user_links ON user_links.portfolio_id = \"Portfolio\".id AND user_links.user_id = ?", user_id)
 
 	return db
 }

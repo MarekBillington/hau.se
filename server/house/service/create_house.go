@@ -1,8 +1,8 @@
 package service
 
 import (
-	"hause/entity"
 	"hause/house/dto"
+	"hause/house/helper"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -16,19 +16,7 @@ func (h *Handler) CreateHouse(ctx *gin.Context) {
 		return
 	}
 
-	var house = entity.House{
-		PortfolioID: new.PortfolioID,
-		Street1:     new.Street1,
-		Street2:     new.Street2,
-		Postcode:    new.Postcode,
-		Town:        new.Town,
-		CountryID:   new.CountryID,
-		Bedrooms:    new.Bedrooms,
-		Bathrooms:   new.Bathrooms,
-		Garage:      new.Garage,
-		Floorspace:  new.Floorspace,
-		Landarea:    new.Landarea,
-	}
+	house := helper.MapHouseFromNewDto(new)
 
 	if new.PropertyID != 0 {
 		house.PropertyID = new.PropertyID

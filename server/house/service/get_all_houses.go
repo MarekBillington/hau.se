@@ -13,7 +13,7 @@ func (h *Handler) GetAllHouses(ctx *gin.Context) {
 
 	query, exists := ctx.GetQuery("active")
 
-	tx := helper.JoinPortfolio(h.DB, houses, h.user.ID, "Address").
+	tx := helper.JoinPortfolio(h.DB, houses, h.user.ID, "").
 		Order("id asc")
 
 	if exists {

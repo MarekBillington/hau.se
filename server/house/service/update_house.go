@@ -3,6 +3,7 @@ package service
 import (
 	"hause/entity"
 	"hause/house/dto"
+	mapper "hause/house/helper"
 	"hause/utility/database/helper"
 	"net/http"
 
@@ -28,19 +29,7 @@ func (h Handler) UpdateHouse(ctx *gin.Context) {
 		return
 	}
 
-	update := entity.House{
-		PortfolioID: input.PortfolioID,
-		Street1:     input.Street1,
-		Street2:     input.Street2,
-		Postcode:    input.Postcode,
-		Town:        input.Town,
-		CountryID:   input.CountryID,
-		Bedrooms:    input.Bedrooms,
-		Bathrooms:   input.Bathrooms,
-		Garage:      input.Garage,
-		Floorspace:  input.Floorspace,
-		Landarea:    input.Landarea,
-	}
+	update := mapper.MapHouseFromUpdateDto(input)
 
 	h.DB.Model(&house).Updates(&update)
 
