@@ -12,5 +12,4 @@ func SetupDb(db *gorm.DB) {
 	db.AutoMigrate(&entity.Portfolio{})
 	db.AutoMigrate(&entity.UserLink{})
 	db.AutoMigrate(&entity.House{})
-	db.AutoMigrate(&entity.Address{})
 }

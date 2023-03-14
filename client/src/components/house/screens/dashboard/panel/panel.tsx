@@ -10,7 +10,7 @@ export const Panel = component$((house: House) => {
   return (
     <div class="house-tile">
       <div>{/** add an image here eventually */}</div>
-      <Link href={house.id.toString()}>{house.address.street_1}</Link>
+      <Link href={house.id.toString()}>{house.street_1}</Link>
     </div>
   );
 });

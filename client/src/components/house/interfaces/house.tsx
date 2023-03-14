@@ -1,4 +1,4 @@
-import type Address from "./address";
+
 
 export default interface House {
   id: number;
@@ -6,8 +6,12 @@ export default interface House {
   created_at: string;
   updated_at: string;
   portfolio_id: number;
+  street_1: string;
+  street_2: string;
+  postcode: string;
+  town: string;
+  country_id: number;
   property_id: number;
-  address: Address;
   bedrooms: number;
   bathrooms: number;
   garage: number;

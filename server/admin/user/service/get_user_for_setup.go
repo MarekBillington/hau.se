@@ -23,7 +23,7 @@ func (h Handler) GetUserForSetup(ctx *gin.Context) {
 
 	var portfolio entity.Portfolio
 	h.DB.
-		Joins("JOIN user_links ON portfolio.id = user_links.portfolio_id AND user_links.user_id = ?", user.ID).
+		Joins("JOIN user_links ON portfolios.id = user_links.portfolio_id AND user_links.user_id = ?", user.ID).
 		First(&portfolio)
 
 	res := dto.SetupResponse{

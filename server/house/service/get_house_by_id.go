@@ -17,6 +17,7 @@ func (h *Handler) GetHouseById(ctx *gin.Context) {
 
 	if house.ID == 0 {
 		ctx.JSON(http.StatusOK, gin.H{})
+		return
 	}
 
 	ctx.JSON(http.StatusOK, house)

@@ -18,6 +18,11 @@ func (h *Handler) CreateHouse(ctx *gin.Context) {
 
 	var house = entity.House{
 		PortfolioID: new.PortfolioID,
+		Street1:     new.Street1,
+		Street2:     new.Street2,
+		Postcode:    new.Postcode,
+		Town:        new.Town,
+		CountryID:   new.CountryID,
 		Bedrooms:    new.Bedrooms,
 		Bathrooms:   new.Bathrooms,
 		Garage:      new.Garage,
@@ -31,16 +36,5 @@ func (h *Handler) CreateHouse(ctx *gin.Context) {
 
 	h.DB.Create(&house)
 
-	// @todo move to some mapper???
-	var address = entity.Address{
-		Street1:   new.NewAddress.Street1,
-		Street2:   new.NewAddress.Street2,
-		Postcode:  new.NewAddress.Postcode,
-		Town:      new.NewAddress.Town,
-		CountryID: new.NewAddress.CountryID,
-		HouseID:   house.ID,
-	}
-
-	h.DB.Create(&address)
 	ctx.JSON(http.StatusOK, house)
 }
