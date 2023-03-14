@@ -33,7 +33,7 @@ export default component$(() => {
       country_id: 1
     }
     const p = await request("portfolio/create", auth, "POST", JSON.stringify(body));
-    if (Object.keys(p).length != 0) {
+    if (!p.error) {
       sesn.portfolio = p;
       nav("/");
     }

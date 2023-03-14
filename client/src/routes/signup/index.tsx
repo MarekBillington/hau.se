@@ -12,8 +12,8 @@ export default component$(() => {
   const sess = useContext(userSession);
   const store = useStore({
     email: "",
-    firstName: "",
-    lastName: "",
+    first_name: "",
+    last_name: "",
     password: "",
     repassword: "",
   });
@@ -22,11 +22,20 @@ export default component$(() => {
   const helper = $((e: QCE) => onChange(e, store));
 
   const click = $(async () => {
+
+    // perform some validation
+    if (store.password != store.repassword) {
+      alert("The passwords do not match")
+      return
+    }
+
     const res = await signup(store);
-    auth.token = res.token;
-    auth.expiry = res.expiry;
-    getUserInfo(auth, sess);
-    nav("/signup/new/");
+    if (!res.error) {
+      auth.token = res.token;
+      auth.expiry = res.expiry;
+      getUserInfo(auth, sess);
+      nav("/signup/new/");
+    }
   });
 
   return (
@@ -35,11 +44,11 @@ export default component$(() => {
       <br />
       <Password label="Password" name="password" value={store.password} change={helper} />
       <br />
-      <Password label="Re-type Password" name="repassword" value={store.password} change={helper} />
+      <Password label="Re-type Password" name="repassword" value={store.repassword} change={helper} />
       <br />
-      <Text label="First Name" name="firstName" value={store.firstName} change={helper} />
+      <Text label="First Name" name="first_name" value={store.first_name} change={helper} />
       <br />
-      <Text label="Last Name" name="lastName" value={store.lastName} change={helper} />
+      <Text label="Last Name" name="last_name" value={store.last_name} change={helper} />
       <br />
       <Button value="Signup" click={click} />
     </>

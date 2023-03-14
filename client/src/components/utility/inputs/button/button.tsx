@@ -6,12 +6,13 @@ export default component$((props: any) => {
 
   return (
     <>
-      <input
+      <button
         class="styled-button"
         type="button"
-        value={props.value}
         onClick$={props.click}
-      />
+      > 
+        {props.value}
+      </button>
     </>
   );
 });

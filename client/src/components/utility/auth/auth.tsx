@@ -11,6 +11,7 @@ export const url = "http://dev.hau.se/api/";
 
 export const login = $(async (email: string, password: string) => {
   // @todo hash password for sending
+  try {
   const res = await fetch(url + "auth/login", {
     method: "POST",
     body: JSON.stringify({
@@ -23,24 +24,33 @@ export const login = $(async (email: string, password: string) => {
       return obj;
     });
   return res;
+  } catch (err) {
+    console.log(err);
+    return {};
+  }
 });
 
 export const signup = $(async (reg: any) => {
   // @todo hash password for sending
-  const res = await fetch(url + "auth/register", {
-    method: "POST",
-    body: JSON.stringify({
-      email: reg.email,
-      password: reg.password,
-      firstName: reg.firstName,
-      lastName: reg.lastName
-    }),
-  })
-    .then((response) => response.json())
-    .then((obj) => {
-      return obj;
-    });
-  return res;
+  try {
+    const res = await fetch(url + "auth/register", {
+      method: "POST",
+      body: JSON.stringify({
+        email: reg.email,
+        password: reg.password,
+        first_name: reg.first_name,
+        last_name: reg.last_name
+      }),
+    })
+      .then((response) => response.json())
+      .then((obj) => {
+        return obj;
+      });
+    return res;
+  } catch (err) {
+    console.log(err);
+    return {};
+  }
 });
 
 export const getTokenOrRefresh = $(async (auth: Auth) => {

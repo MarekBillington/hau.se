@@ -4,7 +4,7 @@ import { setProperty } from "./types";
 export type QCE = QwikChangeEvent<HTMLInputElement>;
 
 // To handle setting new values to typescript objects on input events
-export const onChange = (event: QwikChangeEvent<HTMLInputElement>, object: any) => {
+export const onChange = (event: QCE, object: any) => {
   type keyType = keyof typeof object;
   
   const k: keyType = event.target.name;
@@ -14,13 +14,11 @@ export const onChange = (event: QwikChangeEvent<HTMLInputElement>, object: any) 
     : event.target.valueAsNumber;
   
   setProperty(object, k, val);
-
-  console.log(object)
-  console.log(k)
-  console.log(val)
 };
 
-export const onChangeNum = (event: QwikChangeEvent<HTMLInputElement>, object: any) => {
+// To handle objects where we want to force the value to a number
+// examples are "select"
+export const onChangeNum = (event: QCE, object: any) => {
   type keyType = keyof typeof object;
   
   const k: keyType = event.target.name;
@@ -28,8 +26,4 @@ export const onChangeNum = (event: QwikChangeEvent<HTMLInputElement>, object: an
   const val = parseInt(event.target.value);
   
   setProperty(object, k, val);
-
-  console.log(object)
-  console.log(k)
-  console.log(val)
 };
