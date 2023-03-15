@@ -44,11 +44,15 @@ func (h Handler) RegisterUser(ctx *gin.Context) {
 // private function to act as repo for service
 func (h Handler) createUser(reg dto.Register) (entity.User, error) {
 
+	var role entity.UserRole
+	h.DB.Where("name = ?", "Admin").First(&role)
+
 	user := entity.User{
-		Email:     reg.Email,
-		Password:  reg.Password,
-		FirstName: reg.FirstName,
-		LastName:  reg.LastName,
+		Email:      reg.Email,
+		Password:   reg.Password,
+		FirstName:  reg.FirstName,
+		LastName:   reg.LastName,
+		UserRoleID: role.ID,
 	}
 
 	err := h.DB.Create(&user).Error

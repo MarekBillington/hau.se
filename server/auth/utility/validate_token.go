@@ -2,7 +2,6 @@ package utility
 
 import (
 	"fmt"
-	"os"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -16,7 +15,6 @@ const Secret = "shhh it's a secret"
 func ValidateToken(ctx *gin.Context) (string, error) {
 
 	token, err := extractBearerToken(ctx)
-	fmt.Fprintf(os.Stdout, "%+v", token)
 	if err != nil {
 		return "", err
 	}
