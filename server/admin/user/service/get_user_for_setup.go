@@ -11,15 +11,13 @@ import (
 
 // Get user when auth is available
 // For userSession setup on client only
-func (h Handler) GetUserForSetup(ctx *gin.Context) {
+func (h *Handler) GetUserForSetup(ctx *gin.Context) {
 
 	user, err := utility.GetRequestingUser(ctx, h.DB)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err})
 		return
 	}
-
-	user.Password = ""
 
 	var portfolio entity.Portfolio
 	h.DB.

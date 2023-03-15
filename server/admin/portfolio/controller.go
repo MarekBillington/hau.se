@@ -16,5 +16,7 @@ func Setup(rg *gin.RouterGroup, conn *gorm.DB) {
 
 	portfolio.POST("/create", h.CreatePortfolio)
 
+	portfolio.PATCH(":id", h.Setup, h.UpdatePortfolio)
+
 	portfolio.GET("", h.Setup, h.GetRelatedPortfolio)
 }

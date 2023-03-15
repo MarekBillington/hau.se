@@ -91,13 +91,12 @@ export default component$(() => {
         <Resource
           value={resHouse}
           onResolved={(house: House) => {
+
             if (Object.keys(house).length == 0) {
               store.isNewHouse = true;
               store.house.portfolio_id = sess.portfolio.id
-              // for the sake of working, to create a 
               store.house.country_id = store.countries.default
             }
-
             
             return (
               <>
