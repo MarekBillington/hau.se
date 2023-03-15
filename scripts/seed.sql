@@ -1,10 +1,10 @@
 
 -- Seed country data
-INSERT INTO "countries" (active, created_at, updated_at, name, has_states)
-VALUES (true, NOW(), NOW(), 'United Kingdom', false),
-(true, NOW(), NOW(), 'Germany', true),
-(true, NOW(), NOW(), 'United States', true),
-(true, NOW(), NOW(), 'New Zealand', false);
+INSERT INTO "countries" (active, created_at, updated_at, name, currency, has_states)
+VALUES (true, NOW(), NOW(), 'United Kingdom', 'GBP', false),
+(true, NOW(), NOW(), 'Germany', 'EUR', true),
+(true, NOW(), NOW(), 'United States', 'USD', true),
+(true, NOW(), NOW(), 'New Zealand', 'NZD', false);
 
 -- Seed user role data
 

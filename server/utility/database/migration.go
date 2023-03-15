@@ -7,6 +7,7 @@ import (
 )
 
 func SetupDb(db *gorm.DB) {
+	db.AutoMigrate(&entity.UserRole{})
 	db.AutoMigrate(&entity.User{})
 	db.AutoMigrate(&entity.Country{})
 	db.AutoMigrate(&entity.Portfolio{})

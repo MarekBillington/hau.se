@@ -11,15 +11,17 @@ import (
 )
 
 type User struct {
-	ID        uint      `json:"id" gorm:"primaryKey"`
-	Active    bool      `json:"active" gorm:"notNull;default:true"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"update_at"`
-	Email     string    `json:"email" gorm:"notNull;uniqueIndex;"`
-	Password  string    `json:"-" gorm:"notNull"`
-	FirstName string    `json:"first_name"`
-	LastName  string    `json:"last_name"`
-	Language  string    `json:"language"`
+	ID         uint      `json:"id" gorm:"primaryKey"`
+	Active     bool      `json:"active" gorm:"notNull;default:true"`
+	CreatedAt  time.Time `json:"created_at"`
+	UpdatedAt  time.Time `json:"update_at"`
+	Email      string    `json:"email" gorm:"notNull;uniqueIndex;"`
+	Password   string    `json:"-" gorm:"notNull"`
+	FirstName  string    `json:"first_name"`
+	LastName   string    `json:"last_name"`
+	Language   string    `json:"language"`
+	UserRoleID uint      `json:"user_role"`
+	UserRole   UserRole  `json:"-" gorm:"foreignKey:UserRoleID"`
 }
 
 // Gorm functionality will trigger this during saving process
